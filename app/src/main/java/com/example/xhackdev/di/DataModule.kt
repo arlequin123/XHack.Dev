@@ -1,6 +1,7 @@
 package com.example.xhackdev.di
 
 import android.content.Context
+import com.example.xhackdev.data.api.XHackApi
 import com.example.xhackdev.data.repository.AuthRepositoryImpl
 import com.example.xhackdev.data.sharedprefs.SharedPrefsAccessToken
 import com.example.xhackdev.data.storage.AccessTokenStorage
@@ -18,8 +19,8 @@ import javax.inject.Singleton
 class DataModule {
 
     @Provides
-    fun provideAuthRepository(): AuthRepository {
-        return AuthRepositoryImpl()
+    fun provideAuthRepository(api: XHackApi): AuthRepository {
+        return AuthRepositoryImpl(api)
     }
 
     @Provides
