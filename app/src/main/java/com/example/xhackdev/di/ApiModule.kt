@@ -17,11 +17,8 @@ import javax.inject.Singleton
 class ApiModule {
 
     @Provides
-    fun provideBaseUrl() = Constants.BASE_URL
-
-    @Provides
     @Singleton
-    fun provideRetrofitInstance(BASE_URL: String): XHackApi {
+    fun provideRetrofitInstance(): XHackApi {
 
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -31,7 +28,7 @@ class ApiModule {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

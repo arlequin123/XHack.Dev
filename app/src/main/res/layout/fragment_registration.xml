@@ -2,11 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:clipChildren="false">
+    android:clipChildren="false"
+    tools:context=".presenter.fragments.RegistrationFragment">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/logoImageView"
@@ -44,15 +46,29 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/emailEditText"
+        android:id="@+id/nameEditText"
         android:layout_width="300dp"
         android:layout_height="43dp"
         android:layout_marginTop="33dp"
-        android:hint="Email"
+        android:hint="Name"
         android:textAlignment="center"
         android:paddingHorizontal="16dp"
         android:background="@drawable/white_37x_corner_radius_background"
         app:layout_constraintTop_toBottomOf="@id/subtitleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="13dp"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/emailEditText"
+        android:layout_width="300dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="16dp"
+        android:hint="Email"
+        android:textAlignment="center"
+        android:paddingHorizontal="16dp"
+        android:background="@drawable/white_37x_corner_radius_background"
+        app:layout_constraintTop_toBottomOf="@id/nameEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:elevation="13dp"/>
@@ -72,11 +88,11 @@
         android:elevation="13dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/loginBtn"
+        android:id="@+id/registernBtn"
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginTop="30dp"
-        android:text="login"
+        android:text="Register"
         android:stateListAnimator="@null"
         android:fontFamily="@font/montserrat_medium"
         android:textSize="18sp"
@@ -89,18 +105,18 @@
         android:elevation="4dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/registrationBtn"
+        android:id="@+id/loginBtn"
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginTop="30dp"
-        android:text="Register"
+        android:text="Login"
         android:stateListAnimator="@null"
         android:fontFamily="@font/montserrat_medium"
         android:textSize="18sp"
         android:textAllCaps="false"
         android:textColor="@color/black"
         android:background="@drawable/white_37x_corner_radius_background"
-        app:layout_constraintTop_toBottomOf="@id/loginBtn"
+        app:layout_constraintTop_toBottomOf="@id/registernBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:elevation="4dp"/>

@@ -2,7 +2,6 @@ package com.example.xhackdev.di
 
 import android.content.Context
 import com.example.xhackdev.data.api.XHackApi
-import com.example.xhackdev.data.repository.AuthRepositoryImpl
 import com.example.xhackdev.data.sharedprefs.SharedPrefsAccessToken
 import com.example.xhackdev.data.storage.AccessTokenStorage
 import com.example.xhackdev.domain.repository.AuthRepository
@@ -18,10 +17,10 @@ import javax.inject.Singleton
 @InstallIn(ViewModelComponent::class)
 class DataModule {
 
-    @Provides
-    fun provideAuthRepository(api: XHackApi): AuthRepository {
-        return AuthRepositoryImpl(api)
-    }
+//    @Provides
+//    fun provideAuthRepository(api: XHackApi): AuthRepository {
+//        return AuthRepositoryImpl(api)
+//    }
 
     @Provides
     fun provideAccessTokenStorage(@ApplicationContext context: Context): AccessTokenStorage {

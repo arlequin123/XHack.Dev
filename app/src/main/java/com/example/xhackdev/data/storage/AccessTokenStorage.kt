@@ -2,7 +2,7 @@ package com.example.xhackdev.data.storage
 
 interface AccessTokenStorage {
 
-    fun saveAccessToken()
+    fun saveAccessToken(token: String)
 
-    fun getAccessToken()
+    fun getAccessToken(): String
 }

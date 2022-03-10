@@ -10,11 +10,11 @@ class SharedPrefsAccessToken(context: Context) : AccessTokenStorage {
 
     private val sharedPrefs = context.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
 
-    override fun saveAccessToken() {
-
+    override fun saveAccessToken(token: String) {
+        sharedPrefs.edit().putString(KEY_ACCESS_TOKEN, token).apply()
     }
 
-    override fun getAccessToken() {
-
+    override fun getAccessToken(): String {
+        return sharedPrefs.getString(KEY_ACCESS_TOKEN, "").orEmpty()
     }
 }

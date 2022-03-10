@@ -1,12 +1,21 @@
 package com.example.xhackdev.data.api
 
-import com.example.xhackdev.data.models.LoginDto
+import com.example.xhackdev.data.models.LoginRequestDto
+import com.example.xhackdev.data.models.LoginResponseDto
+import com.example.xhackdev.data.models.RegisterRequestDto
+import com.example.xhackdev.data.models.RegisterResponseDto
 import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.Headers
 import retrofit2.http.POST
-import rx.Single
 
 interface XHackApi {
 
-    @POST
-    suspend fun login(): Response<LoginDto>
+    @POST("./api/auth/login")
+    @Headers("Content-Type: application/json")
+    suspend fun login(@Body loginRequest: LoginRequestDto): Response<LoginResponseDto>
+
+    @POST("./api/auth/register")
+    @Headers("Content-Type: application/json")
+    suspend fun register(@Body registerRequest: RegisterRequestDto): Response<RegisterResponseDto>
 }

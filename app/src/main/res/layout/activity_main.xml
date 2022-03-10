@@ -2,10 +2,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainFragmentContainer"
+    android:name="androidx.navigation.fragment.NavHostFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragmentContainer"
-    android:name="androidx.navigation.fragment.NavHostFragment"
     app:defaultNavHost="true"
-    app:navGraph="@navigation/nav_graph"
-    tools:context=".presenter.MainActivity"/>
+    tools:context=".presenter.MainActivity" />
+

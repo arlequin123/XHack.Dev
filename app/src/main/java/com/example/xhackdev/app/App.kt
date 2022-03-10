@@ -11,10 +11,4 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @HiltAndroidApp
 class App: Application() {
-
-    lateinit var xhackApi: XHackApi
-
-    override fun onCreate() {
-        super.onCreate()
-    }
 }
