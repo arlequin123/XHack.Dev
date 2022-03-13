@@ -22,17 +22,19 @@
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example.xhackdev.presenter.fragments.RegistrationFragment"
-        android:label="RegistrationFragment" >
+        android:label="RegistrationFragment">
         <argument
             android:name="email"
+            android:defaultValue=""
             app:argType="string" />
         <argument
             android:name="password"
+            android:defaultValue=""
             app:argType="string" />
         <action
             android:id="@+id/action_registrationFragment_to_tabsFragment"
             app:destination="@id/tabsFragment"
-            app:popUpTo="@id/registrationFragment"
+            app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

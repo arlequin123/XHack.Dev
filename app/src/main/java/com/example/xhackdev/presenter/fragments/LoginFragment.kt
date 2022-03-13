@@ -8,11 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.xhackdev.R
-import com.example.xhackdev.databinding.ActivityMainBinding
 import com.example.xhackdev.databinding.FragmentLoginBinding
-import com.example.xhackdev.presenter.LoginViewModel
-import com.example.xhackdev.presenter.MainActivity
-import com.example.xhackdev.presenter.fragments.LoginFragmentDirections.ActionLoginFragmentToRegistrationFragment
+import com.example.xhackdev.presenter.viewModels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,8 +33,9 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
 
         binding.registrationBtn.setOnClickListener {
             findNavController().navigate(
-                LoginFragmentDirections.actionLoginFragmentToRegistrationFragment(binding.emailEditText.text.toString(),
-                 binding.passwordEditText.text.toString())
+                LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
+                    .setEmail(binding.emailEditText.text.toString())
+                    .setPassword(binding.passwordEditText.text.toString())
             )
         }
 

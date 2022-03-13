@@ -18,13 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val accessTokenStorage: AccessTokenStorage) : ViewModel() {
 
-    private val _isLogin = MutableLiveData<Boolean?>(null)
-    val isLogin: LiveData<Boolean?> = _isLogin
+    private val _isSingIn = MutableLiveData<Boolean>()
+    val isSingIn: LiveData<Boolean> = _isSingIn
 
     init {
         viewModelScope.launch {
             val token = accessTokenStorage.getAccessToken()
-            _isLogin.value = token.isNotEmpty()
+            _isSingIn.value = token.isNotEmpty()
         }
     }
 

@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.xhackdev.R
 import com.example.xhackdev.databinding.FragmentRegistrationBinding
-import com.example.xhackdev.presenter.RegistrationViewModel
+import com.example.xhackdev.presenter.viewModels.RegistrationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

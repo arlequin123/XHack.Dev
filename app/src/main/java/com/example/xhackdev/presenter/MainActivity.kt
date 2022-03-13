@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
@@ -51,27 +52,10 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val navController = getRootNavController()
-        val graph = navController.navInflater.inflate(getMainNavigationGraphId())
+        vm.isSingIn.observe(this){
+            setupStartDestination(it)
+        }
 
-        binding.root.viewTreeObserver.addOnPreDrawListener(
-            object : ViewTreeObserver.OnPreDrawListener {
-                override fun onPreDraw(): Boolean {
-                    if (vm.isLogin.value != null) {
-                        if (vm.isLogin.value == true) {
-                            graph.setStartDestination(getTabsDestination())
-                        } else {
-                            graph.setStartDestination(getLoginDestination())
-                        }
-                        navController.graph = graph
-                        onNavControllerActivated(navController)
-                        binding.root.viewTreeObserver.removeOnPreDrawListener(this)
-                        return true
-                    }
-                    return false
-                }
-            }
-        )
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
     }
 
@@ -93,6 +77,21 @@ class MainActivity : AppCompatActivity() {
     private fun onNavControllerActivated(navController: NavController) {
         if (this.navController == navController) return
         this.navController = navController
+    }
+
+
+    private fun setupStartDestination(isSingIn: Boolean){
+        val navController = getRootNavController()
+        val graph = navController.navInflater.inflate(getMainNavigationGraphId())
+
+        if (isSingIn) {
+            graph.setStartDestination(getTabsDestination())
+        } else {
+            graph.setStartDestination(getLoginDestination())
+        }
+        graph.setStartDestination(getTabsDestination())
+        navController.graph = graph
+        onNavControllerActivated(navController)
     }
 
 
