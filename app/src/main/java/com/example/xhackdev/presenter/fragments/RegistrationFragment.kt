@@ -41,8 +41,6 @@ class RegistrationFragment: Fragment(R.layout.fragment_registration) {
             findNavController().popBackStack()
         }
 
-        vm.pb.subscribe {
-            findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToTabsFragment())
-        }
+
     }
 }

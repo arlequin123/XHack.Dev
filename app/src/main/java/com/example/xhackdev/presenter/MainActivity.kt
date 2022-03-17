@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             graph.setStartDestination(getLoginDestination())
         }
-        graph.setStartDestination(getTabsDestination())
+
         navController.graph = graph
         onNavControllerActivated(navController)
     }

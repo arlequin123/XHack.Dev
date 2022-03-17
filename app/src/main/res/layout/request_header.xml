@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="20dp"
+    android:paddingHorizontal="16dp"
+    android:paddingBottom="15dp"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TeamName"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:fontFamily="@font/montserrat_regular" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/headerCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="HackathonName"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:fontFamily="@font/montserrat_light" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/headerDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="description"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        app:fontFamily="@font/montserrat_regular" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
