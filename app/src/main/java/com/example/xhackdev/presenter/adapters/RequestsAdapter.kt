@@ -7,17 +7,17 @@ import com.example.xhackdev.databinding.RequestHeaderBinding
 import com.example.xhackdev.databinding.UserRequestItemBinding
 import com.example.xhackdev.domain.interfaces.IGroup
 import com.example.xhackdev.domain.models.RequestHeader
-import com.example.xhackdev.domain.models.RequestToTeam
+import com.example.xhackdev.domain.models.RequestsToTeam
 import com.example.xhackdev.utils.countGroupsAndItems
 import com.example.xhackdev.utils.getPositionInformation
 
 
 class RequestsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var _itemsSource: List<IGroup> = emptyList()
+    private var _itemsSource: List<RequestsToTeam> = emptyList()
 
-    fun setData(users: List<IGroup>){
-        _itemsSource = users
+    fun setData(requests: List<RequestsToTeam>){
+        _itemsSource = requests
         notifyDataSetChanged()
     }
 
@@ -52,7 +52,15 @@ class RequestsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
 
-    override fun getItemCount() = _itemsSource.countGroupsAndItems()
+    override fun getItemCount(): Int {
+        var count = 0
+        _itemsSource.forEach {
+            count++
+            count += it.size
+        }
+
+        return count
+    }
 
 
     private fun getItem(position: Int): Any{
@@ -66,7 +74,7 @@ class RequestsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         if(positionInfo.isGroup) return group
 
-        val item = group[positionInfo.itemIndexInGroup]
+        val item = group.get(positionInfo.itemIndexInGroup)!!
         return item
     }
 
@@ -75,7 +83,7 @@ class RequestsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         binding: UserRequestItemBinding
     ) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(requestToTeam: RequestToTeam){
+        fun bind(requestsToTeam: RequestsToTeam){
 
         }
     }

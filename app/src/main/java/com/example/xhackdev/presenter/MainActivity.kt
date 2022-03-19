@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -30,19 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private val topLevelDestinations = setOf(getTabsDestination(), getLoginDestination())
 
-    // fragment listener is sued for tracking current nav controller
-    private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
-        override fun onFragmentViewCreated(
-            fm: FragmentManager,
-            f: Fragment,
-            v: View,
-            savedInstanceState: Bundle?
-        ) {
-            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
-            if (f is TabsFragment || f is NavHostFragment) return
-            onNavControllerActivated(f.findNavController())
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        vm.isSingIn.observe(this){
+        vm.isSingIn.observe(this) {
             setupStartDestination(it)
         }
 
@@ -74,13 +62,42 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    fun showLoader(isVisible: Boolean) {
+        binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+
+        if (isVisible) {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+    }
+
+
+    // fragment listener is sued for tracking current nav controller
+    private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
+        override fun onFragmentViewCreated(
+            fm: FragmentManager,
+            f: Fragment,
+            v: View,
+            savedInstanceState: Bundle?
+        ) {
+            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+            if (f is TabsFragment || f is NavHostFragment) return
+            onNavControllerActivated(f.findNavController())
+        }
+    }
+
+
     private fun onNavControllerActivated(navController: NavController) {
         if (this.navController == navController) return
         this.navController = navController
     }
 
 
-    private fun setupStartDestination(isSingIn: Boolean){
+    private fun setupStartDestination(isSingIn: Boolean) {
         val navController = getRootNavController()
         val graph = navController.navInflater.inflate(getMainNavigationGraphId())
 

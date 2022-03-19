@@ -12,10 +12,8 @@ import retrofit2.http.POST
 interface AuthApi {
 
     @POST("./api/auth/login")
-    @Headers("Content-Type: application/json")
     suspend fun login(@Body loginRequest: LoginRequestDto): Response<LoginResponseDto>
 
     @POST("./api/auth/register")
-    @Headers("Content-Type: application/json")
     suspend fun register(@Body registerRequest: RegisterRequestDto): Response<RegisterResponseDto>
 }

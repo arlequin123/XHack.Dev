@@ -40,6 +40,7 @@ class ApiModule {
             .addInterceptor(Interceptor {
                 val newRequest = it.request().newBuilder()
                     .addHeader("Authorization", "Bearer ${tokenStorage.getAccessToken()}")
+                    .addHeader("Content-Type", "application/json")
                     .build()
                 it.proceed(newRequest)
             })
@@ -72,11 +73,4 @@ class ApiModule {
 
         return retrofit.create(TeamsApi::class.java)
     }
-
-
-    @Provides
-    fun provideAccessTokenStorage(@ApplicationContext context: Context): AccessTokenStorage {
-        return SharedPrefsAccessToken(context = context)
-    }
-
 }

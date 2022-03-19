@@ -1,24 +1,9 @@
 package com.example.xhackdev.utils
 
-import com.example.xhackdev.domain.interfaces.IGroup
 import com.example.xhackdev.domain.models.GroupedCollectionPositionInfo
+import com.example.xhackdev.domain.models.RequestsToTeam
 
-
-fun Collection<IGroup>.countGroupsAndItems(): Int{
-    if(this.isNullOrEmpty()) return 0
-
-    var count = 0
-
-    this.forEach {
-        count++
-        count += it.size
-    }
-
-    return count
-}
-
-
-fun Collection<IGroup>.getPositionInformation(indexInOneDimensionalCollection: Int): GroupedCollectionPositionInfo {
+fun Collection<RequestsToTeam>.getPositionInformation(indexInOneDimensionalCollection: Int): GroupedCollectionPositionInfo {
     if(this.isNullOrEmpty()) return GroupedCollectionPositionInfo.failed
 
     val oneGroup = 1
@@ -45,6 +30,3 @@ fun Collection<IGroup>.getPositionInformation(indexInOneDimensionalCollection: I
 
     return GroupedCollectionPositionInfo.failed
 }
-
-
-

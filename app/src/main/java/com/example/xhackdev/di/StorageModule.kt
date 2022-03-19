@@ -6,13 +6,16 @@ import com.example.xhackdev.data.storage.AccessTokenStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Singleton
+import dagger.hilt.components.SingletonComponent
+
 
 @Module
-@InstallIn(ViewModelComponent::class)
-class DataModule {
+@InstallIn(SingletonComponent::class)
+class StorageModule {
 
-
+    @Provides
+    fun provideAccessTokenStorage(@ApplicationContext context: Context): AccessTokenStorage {
+        return SharedPrefsAccessToken(context = context)
+    }
 }

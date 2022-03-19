@@ -14,17 +14,16 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val api: AuthApi,
     private val storage: AccessTokenStorage
-) : ViewModel() {
+) : BaseViewModel() {
 
-    private var isLoading = false
 
     val sf = MutableSharedFlow<Unit>()
 
     fun tryLogin(email: String, password: String) {
-        if (isLoading) return
+
         viewModelScope.launch {
             try {
-                isLoading = true
+                _isLoading.postValue(true)
 
                 val response = api.login(LoginRequestDto(email, password))
                 if (response.isSuccessful) {
@@ -40,7 +39,7 @@ class LoginViewModel @Inject constructor(
                 val asd = "govno server"
             }
             finally {
-                isLoading = false
+                _isLoading.postValue(false)
             }
 
         }

@@ -8,6 +8,5 @@ import retrofit2.http.Headers
 interface TeamsApi {
 
     @GET("./api/teams/getActiveIncomingRequests")
-    @Headers("Content-Type: application/json")
     suspend fun getTeamsRequests(): Response<TeamsRequestResponseDto>
 }

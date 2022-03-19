@@ -19,7 +19,7 @@ class MainViewModel @Inject constructor(private val accessTokenStorage: AccessTo
     init {
         viewModelScope.launch {
             val token = accessTokenStorage.getAccessToken()
-            _isSingIn.value = token.isNotEmpty()
+            _isSingIn.postValue(token.isNotEmpty())
         }
     }
 
