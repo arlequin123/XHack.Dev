@@ -6,5 +6,6 @@ data class UserDto(
     val avatarUrl: String?,
     val isAvailableForSearching: Boolean,
     val specialization: String,
-    val email: String
+    val email: String,
+    val description: String
 )

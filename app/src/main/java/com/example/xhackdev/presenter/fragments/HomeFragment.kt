@@ -10,7 +10,7 @@ import com.example.xhackdev.R
 import com.example.xhackdev.databinding.FragmentHomeBinding
 import com.example.xhackdev.presenter.adapters.RequestsAdapter
 import com.example.xhackdev.presenter.viewModels.HomeViewModel
-import com.example.xhackdev.utils.mainActivty
+import com.example.xhackdev.utils.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,9 +27,15 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         bindings.recyclerView.layoutManager = layoutManager
         bindings.recyclerView.adapter = adapter
 
-        mainActivty().showLoader(true)
+        vm.isRefreshing.observe(viewLifecycleOwner){
+            bindings.swipeRefresh.isRefreshing = it
+        }
 
-        vm.users.observe(viewLifecycleOwner){
+        bindings.swipeRefresh.setOnRefreshListener {
+            vm.refreshContent()
+        }
+
+        vm.requests.observe(viewLifecycleOwner){
             adapter.setData(it)
         }
     }

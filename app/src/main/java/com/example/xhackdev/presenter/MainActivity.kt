@@ -7,9 +7,11 @@ import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
@@ -19,6 +21,9 @@ import com.example.xhackdev.R
 import com.example.xhackdev.databinding.ActivityMainBinding
 import com.example.xhackdev.presenter.fragments.TabsFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -35,14 +40,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        installSplashScreen()
+        val splash = installSplashScreen()
         setContentView(R.layout.activity_main)
 
         supportActionBar?.hide()
 
-        vm.isSingIn.observe(this) {
-            setupStartDestination(it)
-        }
+        observeSplashScreenVisibility(splash)
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
     }
@@ -73,6 +76,27 @@ class MainActivity : AppCompatActivity() {
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
+    }
+
+
+    private fun observeSplashScreenVisibility(splash: SplashScreen) {
+        splash.setKeepOnScreenCondition{ true }
+
+        binding.root.viewTreeObserver.addOnPreDrawListener(
+            object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+
+                    vm.isSingIn.value?.let {
+                        setupStartDestination(it)
+                        binding.root.viewTreeObserver.removeOnPreDrawListener(this)
+                        splash.setKeepOnScreenCondition{ false }
+                        return true
+                    }
+
+                    return false
+                }
+            }
+        )
     }
 
 

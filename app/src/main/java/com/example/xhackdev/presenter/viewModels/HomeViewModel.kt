@@ -1,26 +1,63 @@
 package com.example.xhackdev.presenter.viewModels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.xhackdev.data.api.TeamsApi
+import com.example.xhackdev.data.models.RequestDto
+import com.example.xhackdev.data.primitives.RequestType
+import com.example.xhackdev.domain.models.RequestItem
 import com.example.xhackdev.domain.models.RequestsToTeam
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(teamsApi: TeamsApi): ViewModel() {
+class HomeViewModel @Inject constructor(private val teamsApi: TeamsApi): BaseViewModel() {
 
-    val users = MutableLiveData<MutableList<RequestsToTeam>>(mutableListOf())
+    private val _requests = MutableLiveData<MutableList<RequestsToTeam>>()
+    val requests: LiveData<MutableList<RequestsToTeam>> = _requests
 
     init {
-        for (n in 1..10){
-            users.value?.add(RequestsToTeam())
-        }
-
         viewModelScope.launch {
-            //val response = teamsApi.getTeamsRequests()
+            loadContent()
+        }
+    }
+
+
+    override suspend fun loadContent() {
+        try {
+            _isLoading.postValue(true)
+            val response = teamsApi.getTeamsRequests()
+            _isLoading.postValue(false)
+
+            if (response.isSuccessful) {
+                response.body()?.let { it ->
+
+                    val createRequestItem = fun(request: RequestDto): RequestItem = RequestItem(
+                        request.id,
+                        request.user,
+                        request.team,
+                        request.type,
+                        request.isCanceled
+                    )
+
+                    val requestsFromTeams = it.fromTeams.map(createRequestItem)
+                    val requestsFromUsers = it.fromUsers.map(createRequestItem)
+
+                    _requests.value = mutableListOf(
+                        RequestsToTeam(requestsFromTeams, RequestType.TeamToUser),
+                        RequestsToTeam(requestsFromUsers, RequestType.UserToTeam)
+                    )
+                }
+            } else {
+                val qwe = "oshibka"
+            }
+        } catch (e: Exception) {
+
+        } finally {
+            _isLoading.postValue(false)
         }
     }
 }

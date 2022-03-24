@@ -15,9 +15,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.xhackdev.R
 import com.example.xhackdev.databinding.FragmentLoginBinding
 import com.example.xhackdev.presenter.viewModels.LoginViewModel
-import com.example.xhackdev.utils.mainActivty
+import com.example.xhackdev.utils.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment: Fragment(R.layout.fragment_login) {
@@ -34,7 +33,7 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
             ViewGroup.LayoutParams.WRAP_CONTENT)
 
         vm.isLoading.observe(viewLifecycleOwner){
-            mainActivty().showLoader(it)
+            mainActivity().showLoader(it)
         }
 
         binding.loginBtn.setOnClickListener {

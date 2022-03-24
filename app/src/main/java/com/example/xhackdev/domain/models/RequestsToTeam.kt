@@ -1,15 +1,13 @@
 package com.example.xhackdev.domain.models
 
 import com.example.xhackdev.data.models.RequestDto
-import com.example.xhackdev.domain.interfaces.IGroup
+import com.example.xhackdev.data.primitives.RequestType
+import com.example.xhackdev.utils.getPositionInformation
 
-class RequestsToTeam {
+class RequestsToTeam(requests: List<RequestItem>, val requestType: RequestType) {
 
-    private val _request: List<RequestDto> = emptyList()
-    val size = 0
+    private val _request: List<RequestItem> = requests
+    val size = _request.size
 
-
-    fun get(position: Int): RequestDto? {
-        if (position !in 0.._request.size-1) return null
-    }
+    fun get(position: Int) = _request[position]
 }

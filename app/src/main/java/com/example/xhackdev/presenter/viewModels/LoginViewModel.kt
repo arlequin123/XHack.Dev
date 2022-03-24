@@ -24,24 +24,22 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _isLoading.postValue(true)
-
                 val response = api.login(LoginRequestDto(email, password))
+                _isLoading.postValue(false)
+
                 if (response.isSuccessful) {
-                    val dto = response.body()
-                    if (dto != null) {
-                        storage.saveAccessToken(dto.token)
+                    response.body()?.let {
+                        storage.saveAccessToken(it.token)
                         sf.emit(Unit)
                     }
                 } else {
                     val qwe = "net polzovatelya"
                 }
             } catch (e: Exception) {
-                val asd = "govno server"
-            }
-            finally {
+
+            } finally {
                 _isLoading.postValue(false)
             }
-
         }
 
     }

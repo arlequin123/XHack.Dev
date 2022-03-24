@@ -17,7 +17,7 @@
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TeamName"
+            android:text="Входящие запросы"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:fontFamily="@font/montserrat_regular" />
@@ -26,11 +26,14 @@
             android:id="@+id/headerCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="HackathonName"
-            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:paddingHorizontal="10dp"
+            android:text="15"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:background="@drawable/corner_radius_15x_background"
+            android:textColor="@color/white"
             android:textSize="14sp"
-            app:fontFamily="@font/montserrat_light" />
+            app:fontFamily="@font/montserrat_regular" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -38,12 +41,9 @@
         android:id="@+id/headerDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:ellipsize="end"
-        android:maxLines="2"
         android:text="description"
-        android:textColor="@color/black"
-        android:textSize="10sp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
         app:fontFamily="@font/montserrat_regular" />
 
 

@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 open class BaseViewModel @Inject constructor(): ViewModel() {
-    protected val _isLoading = MutableLiveData(false)
+    protected val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
     protected val _isRefreshing = MutableLiveData(false)
@@ -25,6 +25,7 @@ open class BaseViewModel @Inject constructor(): ViewModel() {
         try {
             _isRefreshing.postValue(true)
             loadContent()
+            _isRefreshing.postValue(false)
         } catch (e: Exception) {
 
         } finally {

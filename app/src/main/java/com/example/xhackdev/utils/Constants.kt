@@ -2,5 +2,5 @@ package com.example.xhackdev.utils
 
 object Constants {
 
-    const val BASE_URL = "http://195.133.45.50:3001"
+    const val BASE_URL = "http://192.168.0.103:3000"
 }

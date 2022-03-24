@@ -17,10 +17,8 @@ class MainViewModel @Inject constructor(private val accessTokenStorage: AccessTo
     val isSingIn: LiveData<Boolean> = _isSingIn
 
     init {
-        viewModelScope.launch {
-            val token = accessTokenStorage.getAccessToken()
-            _isSingIn.postValue(token.isNotEmpty())
-        }
+        val token = accessTokenStorage.getAccessToken()
+        _isSingIn.postValue(token.isNotEmpty())
     }
 
 }
