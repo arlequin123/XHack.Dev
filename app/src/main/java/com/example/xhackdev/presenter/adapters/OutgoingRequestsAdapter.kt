@@ -1,39 +1,25 @@
 package com.example.xhackdev.presenter.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.xhackdev.R
-import com.example.xhackdev.data.primitives.RequestType
+import com.example.xhackdev.databinding.OutgoingRequestHeaderBinding
 import com.example.xhackdev.databinding.RequestHeaderBinding
 import com.example.xhackdev.databinding.UserRequestItemBinding
 import com.example.xhackdev.domain.models.RequestItem
 import com.example.xhackdev.domain.models.RequestsToTeam
 import com.example.xhackdev.presenter.adapters.primitives.ItemType
+import com.example.xhackdev.presenter.viewHolders.OutgoingRequestHeaderViewHolder
 import com.example.xhackdev.presenter.viewHolders.RequestHeaderViewHolder
 import com.example.xhackdev.presenter.viewHolders.RequestViewHolder
 import com.example.xhackdev.utils.getPositionInformation
 
-
-class RequestsAdapter(
-
-): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private var userRequestItemClickAction: () -> Unit = {}
-    private var teamRequestItemClickAction: () -> Unit = {}
-
+class OutgoingRequestsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var itemsSource: List<RequestsToTeam> = emptyList()
         set(newValue) {
             field = newValue
             notifyDataSetChanged()
         }
-
-    fun setItemClickActions(userRequestItemClickAction: () -> Unit, teamRequestItemClickAction: () -> Unit){
-        this.userRequestItemClickAction = userRequestItemClickAction
-        this.teamRequestItemClickAction = teamRequestItemClickAction
-    }
 
 
     override fun getItemViewType(position: Int): Int {
@@ -44,29 +30,22 @@ class RequestsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemBinding = UserRequestItemBinding.inflate(inflater, parent, false)
-        val headerBinding = RequestHeaderBinding.inflate(inflater, parent, false)
+        val headerBinding = OutgoingRequestHeaderBinding.inflate(inflater, parent, false)
 
-        if(viewType == ItemType.Section.ordinal) return RequestHeaderViewHolder(headerBinding)
+        if(viewType == ItemType.Section.ordinal) return OutgoingRequestHeaderViewHolder(headerBinding)
 
         return RequestViewHolder(itemBinding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
+
         if(holder is RequestViewHolder){
-            (item as RequestItem).let {
-                holder.bind(item)
-                val action = when (item.type){
-                    RequestType.TeamToUser -> teamRequestItemClickAction
-                    RequestType.UserToTeam -> userRequestItemClickAction
-                    else -> { {} }
-                }
-                holder.setOnClickAction(action)
-                return
-            }
+            holder.bind(item as RequestItem)
+            return
         }
 
-        if(holder is RequestHeaderViewHolder){
+        if(holder is OutgoingRequestHeaderViewHolder){
             holder.bind(item as RequestsToTeam)
             return
         }
@@ -97,5 +76,4 @@ class RequestsAdapter(
 
         return group.get(positionInfo.itemIndexInGroup)
     }
-
 }

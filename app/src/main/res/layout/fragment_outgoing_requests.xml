@@ -31,26 +31,28 @@
                 android:clipChildren="false"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/backButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Запросы"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    app:fontFamily="@font/montserrat_regular"/>
+                    android:layout_height="20dp"
+                    android:paddingHorizontal="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:elevation="4dp"
+                    android:textAllCaps="false"
+                    android:rotation="180"
+                    android:src="@drawable/ic_action_arrow"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:background="@drawable/corner_radius_15x_background" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/outgoingRequestsBtn"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="5dp"
-                    android:textColor="@android:color/black"
-                    android:elevation="4dp"
-                    android:background="@drawable/corner_radius_15x_background"
-                    android:text="Отправленные"
-                    android:textSize="12sp"/>
+                    android:layout_marginLeft="10dp"
+                    android:text="Отправленные запросы "
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    app:fontFamily="@font/montserrat_medium"/>
+
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

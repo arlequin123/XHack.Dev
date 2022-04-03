@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.xhackdev.R
@@ -35,8 +36,21 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             vm.refreshContent()
         }
 
-        vm.requests.observe(viewLifecycleOwner){
-            adapter.setData(it)
+        bindings.outgoingRequestsBtn.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToOutgoingRequestsFragment())
         }
+
+        vm.requests.observe(viewLifecycleOwner){
+            adapter.itemsSource = it
+        }
+
+
+        adapter.setItemClickActions(
+            userRequestItemClickAction = {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToUserDetailsFragment(5))
+            },
+            teamRequestItemClickAction = {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTeamDetailsFragment(5))
+            })
     }
 }

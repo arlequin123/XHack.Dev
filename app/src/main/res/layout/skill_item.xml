@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="4dp"
+    android:elevation="4dp"
+    android:backgroundTint="#FF003D"
+    android:background="@drawable/corner_radius_15x_background">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Java"
+        android:textSize="12sp"
+        android:fontFamily="@font/montserrat_regular"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

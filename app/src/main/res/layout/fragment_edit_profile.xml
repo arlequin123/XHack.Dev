@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_margin="16dp"
+            android:paddingHorizontal="5dp"
+            android:elevation="4dp"
+            android:textAllCaps="false"
+            android:rotation="180"
+            android:src="@drawable/ic_action_arrow"
+            android:fontFamily="@font/montserrat_regular"
+            android:background="@drawable/corner_radius_15x_background"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/userAvatarImage"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/circle_background"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/montserrat_light"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/nameEditText"
+            app:layout_constraintBottom_toTopOf="@id/nameEditText"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/nameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/white_37x_corner_radius_background"
+            android:elevation="13dp"
+            android:paddingHorizontal="16dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userAvatarImage" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Specialization"
+            android:fontFamily="@font/montserrat_light"
+            android:textSize="14sp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toStartOf="@id/specializationEditText"
+            app:layout_constraintBottom_toTopOf="@id/specializationEditText"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/specializationEditText"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="33dp"
+            android:background="@drawable/white_37x_corner_radius_background"
+            android:elevation="13dp"
+            android:paddingHorizontal="16dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameEditText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contacts"
+            android:fontFamily="@font/montserrat_light"
+            android:textSize="14sp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toStartOf="@id/contactsList"
+            app:layout_constraintBottom_toTopOf="@id/contactsList"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/contactsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="45dp"
+            app:layout_constraintTop_toBottomOf="@id/specializationEditText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/newContact_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_marginHorizontal="40dp"
+            android:background="@drawable/white_37x_corner_radius_background"
+            android:elevation="13dp"
+            android:paddingHorizontal="16dp"
+            android:textAlignment="center"
+            android:hint="New Contact"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contactsList" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/skills_list_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Skills"
+            android:fontFamily="@font/montserrat_light"
+            android:textSize="14sp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toStartOf="@id/skillsList"
+            app:layout_constraintBottom_toTopOf="@id/skillsList"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/editSkillsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            android:paddingHorizontal="8dp"
+            android:elevation="4dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:text="Edit"
+            android:drawableStart="@drawable/ic_edit"
+            android:fontFamily="@font/montserrat_regular"
+            android:background="@drawable/corner_radius_15x_background"
+            app:layout_constraintStart_toEndOf="@id/skills_list_title"
+            app:layout_constraintBottom_toTopOf="@id/skillsList"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/skillsList"
+            android:clipChildren="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_marginTop="60dp"
+            app:layout_constraintTop_toBottomOf="@id/newContact_EditText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

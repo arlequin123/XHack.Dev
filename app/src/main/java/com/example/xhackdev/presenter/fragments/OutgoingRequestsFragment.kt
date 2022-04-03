@@ -8,24 +8,24 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.xhackdev.R
-import com.example.xhackdev.databinding.FragmentHacksBinding
-import com.example.xhackdev.presenter.adapters.HacksAdapter
-import com.example.xhackdev.presenter.viewModels.HacksViewModel
+import com.example.xhackdev.databinding.FragmentOutgoingRequestsBinding
+import com.example.xhackdev.presenter.adapters.OutgoingRequestsAdapter
+import com.example.xhackdev.presenter.viewModels.OutgoingRequestsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HacksFragment: Fragment(R.layout.fragment_hacks) {
+class OutgoingRequestsFragment: Fragment(R.layout.fragment_outgoing_requests) {
 
-    private val bindings: FragmentHacksBinding by viewBinding(FragmentHacksBinding::bind)
-    private val vm: HacksViewModel by viewModels()
-    private val adapter = HacksAdapter()
+    private val bindings: FragmentOutgoingRequestsBinding by viewBinding(FragmentOutgoingRequestsBinding::bind)
+    private val vm: OutgoingRequestsViewModel by viewModels()
+    private val adapter = OutgoingRequestsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val layoutManager = LinearLayoutManager(requireContext())
-        bindings.hacksList.layoutManager = layoutManager
-        bindings.hacksList.adapter = adapter
+        bindings.recyclerView.layoutManager = layoutManager
+        bindings.recyclerView.adapter = adapter
 
         vm.isRefreshing.observe(viewLifecycleOwner){
             bindings.swipeRefresh.isRefreshing = it
@@ -33,6 +33,10 @@ class HacksFragment: Fragment(R.layout.fragment_hacks) {
 
         bindings.swipeRefresh.setOnRefreshListener {
             vm.refreshContent()
+        }
+
+        bindings.backButton.setOnClickListener {
+            findNavController().popBackStack()
         }
 
         vm.requests.observe(viewLifecycleOwner){

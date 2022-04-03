@@ -7,5 +7,35 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.xhackdev.presenter.fragments.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_outgoingRequestsFragment"
+            app:destination="@id/outgoingRequestsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_teamDetailsFragment"
+            app:destination="@id/teamDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_userDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/outgoingRequestsFragment"
+        android:name="com.example.xhackdev.presenter.fragments.OutgoingRequestsFragment"
+        android:label="OutgoingRequestsFragment" />
+    <fragment
+        android:id="@+id/teamDetailsFragment"
+        android:name="com.example.xhackdev.presenter.fragments.TeamDetailsFragment"
+        android:label="TeamDetailsFragment" >
+        <argument
+            android:name="teamId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/userDetailsFragment"
+        android:name="com.example.xhackdev.presenter.fragments.UserDetailsFragment"
+        android:label="UserDetailsFragment" >
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

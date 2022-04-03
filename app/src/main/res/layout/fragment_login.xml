@@ -53,8 +53,9 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/emailEditText"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="43dp"
+            android:layout_marginHorizontal="60dp"
             android:layout_marginTop="33dp"
             android:background="@drawable/white_37x_corner_radius_background"
             android:elevation="13dp"
@@ -67,8 +68,9 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/passwordEditText"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="43dp"
+            android:layout_marginHorizontal="60dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/white_37x_corner_radius_background"
             android:elevation="13dp"
@@ -81,14 +83,15 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/loginBtn"
-            android:layout_width="300dp"
-            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_marginHorizontal="60dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/login_btn_background"
             android:elevation="4dp"
             android:fontFamily="@font/montserrat_medium"
             android:stateListAnimator="@null"
-            android:text="login"
+            android:text="Login"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -98,8 +101,9 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/registrationBtn"
-            android:layout_width="300dp"
-            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_marginHorizontal="60dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/white_37x_corner_radius_background"
             android:elevation="4dp"
