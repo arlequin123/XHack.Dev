@@ -7,5 +7,17 @@
     <fragment
         android:id="@+id/messengerFragment"
         android:name="com.example.xhackdev.presenter.fragments.MessengerFragment"
-        android:label="MessengerFragment" />
+        android:label="MessengerFragment" >
+        <action
+            android:id="@+id/action_messengerFragment_to_chatDetailsFragment"
+            app:destination="@id/chatDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatDetailsFragment"
+        android:name="com.example.xhackdev.presenter.fragments.ChatDetailsFragment"
+        android:label="ChatDetailsFragment" >
+        <argument
+            android:name="chatId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

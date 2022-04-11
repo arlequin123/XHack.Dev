@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/favourites_graph"
+    app:startDestination="@id/favouritesFragment">
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.example.xhackdev.presenter.fragments.FavouritesFragment"
+        android:label="FavouritesFragment" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_userDetailsFragment"
+            app:destination="@id/userDetailsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/userDetailsFragment2"
+        android:name="com.example.xhackdev.presenter.fragments.UserDetailsFragment"
+        android:label="UserDetailsFragment" />
+</navigation>

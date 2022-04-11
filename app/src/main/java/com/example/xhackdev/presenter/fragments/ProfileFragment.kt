@@ -17,7 +17,7 @@ import com.example.xhackdev.presenter.viewModels.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileFragment: Fragment(R.layout.fragment_profile) {
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private val bindings: FragmentProfileBinding by viewBinding(FragmentProfileBinding::bind)
     private val vm: ProfileViewModel by viewModels()
@@ -26,11 +26,12 @@ class ProfileFragment: Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
+        val layoutManager =
+            GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
         bindings.skillsList.layoutManager = layoutManager
         bindings.skillsList.adapter = adapter
-        bindings.skillsList.addItemDecoration(object: RecyclerView.ItemDecoration(){
+        bindings.skillsList.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
                 view: View,
@@ -50,14 +51,19 @@ class ProfileFragment: Fragment(R.layout.fragment_profile) {
         })
 
 
-        vm.items.observe(viewLifecycleOwner){
-            adapter.itemSource = it
+        vm.items.observe(viewLifecycleOwner) {
+            //adapter.itemSource = it
         }
 
         bindings.editButton.setOnClickListener {
             findNavController().navigate(
                 ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
             )
+        }
+
+
+        bindings.userName.setOnClickListener {
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToFavouritesGraph())
         }
     }
 }

@@ -3,11 +3,12 @@ package com.example.xhackdev.presenter.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.xhackdev.data.models.TagDto
 import com.example.xhackdev.databinding.SkillItemBinding
 
 class SkillsAdapter : RecyclerView.Adapter<SkillsAdapter.SkillViewHolder>() {
 
-    var itemSource: List<Any> = emptyList()
+    var itemSource: List<TagDto> = emptyList()
         set(newValue) {
             field = newValue
             notifyDataSetChanged()
@@ -31,8 +32,8 @@ class SkillsAdapter : RecyclerView.Adapter<SkillsAdapter.SkillViewHolder>() {
         private val binding: SkillItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(requestHeader: Any) {
-
+        fun bind(tag: TagDto) {
+            binding.label.text = tag.name
         }
     }
 }

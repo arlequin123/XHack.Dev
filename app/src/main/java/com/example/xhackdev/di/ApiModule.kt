@@ -3,6 +3,7 @@ package com.example.xhackdev.di
 import android.content.Context
 import com.example.xhackdev.data.api.AuthApi
 import com.example.xhackdev.data.api.TeamsApi
+import com.example.xhackdev.data.api.UsersApi
 import com.example.xhackdev.data.sharedprefs.SharedPrefsAccessToken
 import com.example.xhackdev.data.storage.AccessTokenStorage
 import com.example.xhackdev.utils.Constants
@@ -62,7 +63,6 @@ class ApiModule {
     @Provides
     @Singleton
     fun provideAuthApi(retrofit: Retrofit): AuthApi {
-
         return retrofit.create(AuthApi::class.java)
     }
 
@@ -70,7 +70,12 @@ class ApiModule {
     @Provides
     @Singleton
     fun provideTeamsApi(retrofit: Retrofit): TeamsApi {
-
         return retrofit.create(TeamsApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUsersApi(retrofit: Retrofit): UsersApi {
+        return retrofit.create(UsersApi::class.java)
     }
 }

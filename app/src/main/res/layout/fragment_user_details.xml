@@ -66,7 +66,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_medium"
-            android:text="Jane Ann"
             android:textColor="#696969"
             android:textSize="62sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +77,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_light"
-            android:text="Kotlin developer"
             android:textColor="#696969"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +89,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/montserrat_light"
-            android:text="developer@mail.ru"
             android:textColor="#696969"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -109,11 +106,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/userEmail" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/contactsList"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/contacts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="18sp"
+            android:textColor="#1D90E4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/skillsList" />
@@ -130,7 +130,7 @@
             android:elevation="4dp"
             android:textAlignment="center"
             android:background="@drawable/corner_radius_15x_background"
-            app:layout_constraintTop_toBottomOf="@id/contactsList"
+            app:layout_constraintTop_toBottomOf="@id/contacts"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 

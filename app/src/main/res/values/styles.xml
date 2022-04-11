@@ -5,4 +5,9 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
         <item name="postSplashScreenTheme">@style/Theme.Xhackdev</item>
     </style>
+
+
+    <style name="TabTextStyle" parent="Widget.Design.TabLayout">
+        <item name="android:textSize">17sp</item>
+    </style>
 </resources>

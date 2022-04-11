@@ -5,6 +5,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.xhackdev.presenter.MainActivity
+import dagger.assisted.AssistedFactory
 
 typealias ViewModelCreator = () -> ViewModel
 
@@ -20,7 +21,7 @@ class ViewModelFactory(private val viewModelCreator: ViewModelCreator) : ViewMod
     }
 }
 
-//todo research
+
 inline fun <reified VM : ViewModel> Fragment.viewModelCreator(noinline creator: ViewModelCreator) : Lazy<VM> {
     return viewModels { ViewModelFactory(creator) }
 }

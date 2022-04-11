@@ -47,10 +47,10 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
         adapter.setItemClickActions(
             userRequestItemClickAction = {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToUserDetailsFragment(5))
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToUserDetailsFragment(it.user.id  ))
             },
             teamRequestItemClickAction = {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTeamDetailsFragment(5))
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTeamDetailsFragment(it.team.id))
             })
     }
 }

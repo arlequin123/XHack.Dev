@@ -11,7 +11,18 @@ class RequestViewHolder(
     private val binding: UserRequestItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    private var requestItem: RequestItem? = null
+    private var clickAction: (RequestItem) -> Unit = {}
+
+    init {
+        binding.root.setOnClickListener {
+            requestItem?.let(clickAction)
+        }
+    }
+
     fun bind(requestsToTeam: RequestItem) {
+        requestItem = requestsToTeam
+
         binding.userName.text = requestsToTeam.user.name
         binding.description.text = requestsToTeam.user.description
         binding.description.visibility =
@@ -28,9 +39,7 @@ class RequestViewHolder(
         }
     }
 
-    fun setOnClickAction(clickAction: () -> Unit){
-        binding.root.setOnClickListener {
-            clickAction.invoke()
-        }
+    fun setOnClickAction(clickAction: (RequestItem) -> Unit){
+        this.clickAction = clickAction
     }
 }

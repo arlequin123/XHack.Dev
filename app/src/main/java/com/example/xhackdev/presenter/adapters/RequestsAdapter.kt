@@ -21,8 +21,8 @@ class RequestsAdapter(
 
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var userRequestItemClickAction: () -> Unit = {}
-    private var teamRequestItemClickAction: () -> Unit = {}
+    private var userRequestItemClickAction: (RequestItem) -> Unit = {}
+    private var teamRequestItemClickAction: (RequestItem) -> Unit = {}
 
     var itemsSource: List<RequestsToTeam> = emptyList()
         set(newValue) {
@@ -30,7 +30,7 @@ class RequestsAdapter(
             notifyDataSetChanged()
         }
 
-    fun setItemClickActions(userRequestItemClickAction: () -> Unit, teamRequestItemClickAction: () -> Unit){
+    fun setItemClickActions(userRequestItemClickAction: (RequestItem) -> Unit, teamRequestItemClickAction: (RequestItem) -> Unit){
         this.userRequestItemClickAction = userRequestItemClickAction
         this.teamRequestItemClickAction = teamRequestItemClickAction
     }

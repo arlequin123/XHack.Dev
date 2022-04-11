@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     // nav controller of the current screen
     private var navController: NavController? = null
 
-    private val topLevelDestinations = setOf(getTabsDestination(), getLoginDestination())
+    private val topLevelDestinations = setOf(getTabsDestination(), getLoginDestination(), getHomeDestination())
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -138,9 +138,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun isStartDestination(destination: NavDestination?): Boolean {
         if (destination == null) return false
-        val graph = destination.parent ?: return false
-        val startDestinations = topLevelDestinations + graph.startDestinationId
-        return startDestinations.contains(destination.id)
+        return topLevelDestinations.contains(destination.id)
     }
 
 
@@ -153,6 +151,8 @@ class MainActivity : AppCompatActivity() {
     private fun getTabsDestination(): Int = R.id.tabsFragment
 
     private fun getLoginDestination(): Int = R.id.loginFragment
+
+    private fun getHomeDestination(): Int = R.id.homeFragment
 
     private fun getMainNavigationGraphId(): Int = R.navigation.main_nav_graph
 }
