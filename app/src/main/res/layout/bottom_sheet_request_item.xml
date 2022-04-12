@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_marginHorizontal="10dp"
+    android:padding="16dp"
+    android:backgroundTint="@color/lightGrey"
+    android:background="@drawable/corner_radius_15x_background">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Входящий запрос"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/black"
+        android:text="От команды: Жесткие"
+        android:textSize="14sp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/bntLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/declineBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/corner_radius_15x_background"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:stateListAnimator="@null"
+            android:text="Отклонить"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acceptBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/corner_radius_15x_background"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/white"
+            android:backgroundTint="#FF005C"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:stateListAnimator="@null"
+            android:text="Принять"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/revokeBtn"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:padding="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/corner_radius_15x_background"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:stateListAnimator="@null"
+        android:text="Отозвать"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

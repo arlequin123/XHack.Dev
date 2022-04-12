@@ -8,13 +8,18 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.xhackdev.R
+import com.example.xhackdev.data.models.UserDetailsRequestDto
 import com.example.xhackdev.databinding.FragmentUserDetailsBinding
+import com.example.xhackdev.databinding.UserDetailsBottomSheetBinding
+import com.example.xhackdev.presenter.adapters.BottomSheetRequestsAdapter
 import com.example.xhackdev.presenter.adapters.SkillsAdapter
 import com.example.xhackdev.presenter.viewModels.UserDetailsViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,26 +30,41 @@ class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
     private val args: UserDetailsFragmentArgs by navArgs()
     @Inject lateinit var assistedFactory: UserDetailsViewModel.Factory
     private val vm: UserDetailsViewModel by viewModels { UserDetailsViewModel.provideFactory(assistedFactory, args.userId) }
+    private val requests: ArrayList<UserDetailsRequestDto> = ArrayList()
 
     private val adapter = SkillsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        bindings.sendRequestButton.setOnClickListener {
+            showBottomDialog()
+        }
+
         bindings.backButton.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        bindings.favoritesButton.setOnClickListener {
+            vm.addOrRemoveFavourites()
+        }
+
+        vm.isBookmarked.observe(viewLifecycleOwner){
+            bindings.favoritesButton.setBackgroundResource(if(it) R.drawable.ic_star else R.drawable.ic_star_unchecked)
         }
 
         vm.userInfo.observe(viewLifecycleOwner){
             if (!it.avatarUrl.isNullOrBlank()) {
                 Glide.with(bindings.userAvatarImage)
                     .load(it.avatarUrl)
+                    .circleCrop()
                     .placeholder(R.drawable.ic_default_user_avatar)
                     .error(R.drawable.ic_default_user_avatar)
                     .into(bindings.userAvatarImage)
             } else {
                 bindings.userAvatarImage.setImageResource(R.drawable.ic_default_user_avatar)
             }
+
 
             bindings.userName.text = it.name
             bindings.userSpecialization.text = it.specialization
@@ -80,6 +100,28 @@ class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
             it.networks.forEach { network ->
                 bindings.contacts.append("$network\n")
             }
+
+            requests.addAll(it.requests)
         }
+    }
+
+    //TODO refactor this shit
+    private fun showBottomDialog(){
+        val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
+        val bottomSheetBinding: UserDetailsBottomSheetBinding = UserDetailsBottomSheetBinding.inflate(layoutInflater, null, false)
+        val adapter = BottomSheetRequestsAdapter()
+
+        bottomSheetBinding.closeBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val layoutmanager = LinearLayoutManager(requireContext())
+        bottomSheetBinding.requestsRv.layoutManager = layoutmanager
+        bottomSheetBinding.requestsRv.adapter = adapter
+        adapter.itemSource = requests
+        adapter.setItemClickActions({vm.acceptRequestFromUser(it)}, {vm.declineRequestFromUser(it)}, {vm.withdrowRequestToUser(it)})
+
+        dialog.setContentView(bottomSheetBinding.root)
+        dialog.show()
     }
 }
