@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.xhackdev.data.api.AuthApi
 import com.example.xhackdev.data.models.RegisterRequestDto
+import com.example.xhackdev.data.room.CurrentUserDao
+import com.example.xhackdev.data.room.entities.CurrentUserEntity
 import com.example.xhackdev.data.storage.AccessTokenStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,7 +16,8 @@ import kotlin.Exception
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
     private val api: AuthApi,
-    private val storage: AccessTokenStorage
+    private val storage: AccessTokenStorage,
+    private val currentUserDao: CurrentUserDao
 ) : BaseViewModel() {
 
     val sf = MutableSharedFlow<Unit>()
@@ -29,6 +32,7 @@ class RegistrationViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let {
                         storage.saveAccessToken(it.token)
+                        currentUserDao.updateUser(CurrentUserEntity(1, if(it.avatarUrl.isNullOrEmpty()) "" else it.avatarUrl, it.name, it.email, it.description, it.specialization, it.networks, emptyList()))
                         sf.emit(Unit)
                     }
                 } else {

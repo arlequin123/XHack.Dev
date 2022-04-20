@@ -3,28 +3,57 @@ package com.example.xhackdev.presenter.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.xhackdev.data.models.UserDetailsRequestDto
 import com.example.xhackdev.data.primitives.RequestType
 import com.example.xhackdev.databinding.BottomSheetRequestItemBinding
 import com.example.xhackdev.domain.models.RequestItem
 
+class RequestDiffCallback(
+    private val oldList: List<UserDetailsRequestDto>,
+    private val newList: List<UserDetailsRequestDto>
+): DiffUtil.Callback(){
+
+    override fun getOldListSize() = oldList.size
+    override fun getNewListSize() = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldRequest = oldList[oldItemPosition]
+        val newRequest = newList[newItemPosition]
+
+        return oldRequest.id == newRequest.id
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldRequest = oldList[oldItemPosition]
+        val newRequest = newList[newItemPosition]
+
+        return oldRequest == newRequest
+    }
+
+}
+
+interface RequestActionDelegate{
+    fun acceptRequest(requestId: Int)
+    fun declineRequest(requestId: Int)
+    fun withdrawRequest(requestId: Int)
+}
+
 class BottomSheetRequestsAdapter: RecyclerView.Adapter<BottomSheetRequestsAdapter.RequestViewHolder>() {
 
-    private var acceptRequestClickAction: (Int) -> Unit = {}
-    private var declineRequestClickAction: (Int) -> Unit = {}
-    private var withdrawRequestItemClickAction: (Int) -> Unit = {}
+    private var requestDelegate: RequestActionDelegate? = null
 
     var itemSource: List<UserDetailsRequestDto> = emptyList()
         set(newValue) {
+            val diffCallback = RequestDiffCallback(field, newValue)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
             field = newValue
-            notifyDataSetChanged()
+            diffResult.dispatchUpdatesTo(this)
         }
 
-    fun setItemClickActions(acceptRequestClickAction: (Int) -> Unit, declineRequestClickAction: (Int) -> Unit, withdrawRequestItemClickAction: (Int) -> Unit){
-        this.acceptRequestClickAction = acceptRequestClickAction
-        this.declineRequestClickAction = declineRequestClickAction
-        this.withdrawRequestItemClickAction = withdrawRequestItemClickAction
+    fun setDelegate(delegate: RequestActionDelegate){
+        requestDelegate = delegate
     }
 
 
@@ -36,6 +65,7 @@ class BottomSheetRequestsAdapter: RecyclerView.Adapter<BottomSheetRequestsAdapte
 
     override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
         holder.bind(itemSource[position])
+        holder.setDelegate(requestDelegate)
     }
 
     override fun getItemCount() = itemSource.size
@@ -45,32 +75,30 @@ class BottomSheetRequestsAdapter: RecyclerView.Adapter<BottomSheetRequestsAdapte
         RecyclerView.ViewHolder(binding.root) {
 
         private var request: UserDetailsRequestDto? = null
-        private var acceptAction: (Int) -> Unit = {}
-        private var declineAction: (Int) -> Unit = {}
-        private var withdrawAction: (Int) -> Unit = {}
+        private var requestDelegate: RequestActionDelegate? = null
 
         init {
             binding.acceptBtn.setOnClickListener {
                 request?.let {
-                    acceptAction.invoke(it.id)
+                    requestDelegate?.acceptRequest(it.id)
                 }
             }
 
             binding.declineBtn.setOnClickListener {
                 request?.let {
-                    declineAction.invoke(it.id)
+                    requestDelegate?.declineRequest(it.id)
                 }
             }
 
             binding.revokeBtn.setOnClickListener {
                 request?.let {
-                    withdrawAction.invoke(it.id)
+                    requestDelegate?.withdrawRequest(it.id)
                 }
             }
         }
 
         fun bind(model: UserDetailsRequestDto) {
-
+            request = model
             when(model.type){
                 RequestType.UserToTeam ->{
                     binding.title.text = "Входящий запрос"
@@ -86,6 +114,10 @@ class BottomSheetRequestsAdapter: RecyclerView.Adapter<BottomSheetRequestsAdapte
                 }
                 else -> binding.root.visibility = View.GONE
             }
+        }
+
+        fun setDelegate(delegate: RequestActionDelegate?){
+            requestDelegate = delegate
         }
     }
 }

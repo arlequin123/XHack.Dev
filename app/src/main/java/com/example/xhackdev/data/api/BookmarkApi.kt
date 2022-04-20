@@ -1,5 +1,6 @@
 package com.example.xhackdev.data.api
 
+import com.example.xhackdev.data.models.TeamBookmarkRequest
 import com.example.xhackdev.data.models.UserBookmarkRequest
 import retrofit2.Response
 import retrofit2.http.Body
@@ -12,4 +13,10 @@ interface BookmarkApi {
 
     @POST("/api/bookmarks/remove-user-bookmark")
     suspend fun removeUserFromBookmark(@Body userId: UserBookmarkRequest): Response<Unit>
+
+    @POST("/api/bookmarks/bookmark-team")
+    suspend fun addTeamToBookmark(@Body teamId: TeamBookmarkRequest): Response<Unit>
+
+    @POST("/api/bookmarks/remove-team-bookmark")
+    suspend fun removeTeamFromBookmark(@Body teamId: TeamBookmarkRequest): Response<Unit>
 }

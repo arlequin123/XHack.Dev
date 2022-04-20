@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,6 +66,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         bindings.userName.setOnClickListener {
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToFavouritesGraph())
+        }
+
+        bindings.logOutBtn.setOnClickListener {
+            val builder = NavOptions.Builder()
+            val navOptions: NavOptions =
+                builder
+                    .setPopUpTo(R.id.loginFragment, true)
+                    .build()
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLoginFragment(), navOptions)
         }
     }
 }

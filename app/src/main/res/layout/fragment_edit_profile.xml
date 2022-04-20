@@ -126,14 +126,15 @@
             android:text="Skills"
             android:fontFamily="@font/montserrat_light"
             android:textSize="14sp"
-            android:layout_marginStart="5dp"
-            app:layout_constraintStart_toStartOf="@id/skillsList"
-            app:layout_constraintBottom_toTopOf="@id/skillsList"/>
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newContact_EditText"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/editSkillsButton"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="18dp"
             android:layout_marginStart="16dp"
             android:paddingHorizontal="8dp"
             android:elevation="4dp"
@@ -144,7 +145,7 @@
             android:fontFamily="@font/montserrat_regular"
             android:background="@drawable/corner_radius_15x_background"
             app:layout_constraintStart_toEndOf="@id/skills_list_title"
-            app:layout_constraintBottom_toTopOf="@id/skillsList"/>
+            app:layout_constraintTop_toTopOf="@id/skills_list_title"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/skillsList"

@@ -4,6 +4,8 @@ import androidx.lifecycle.*
 import com.example.xhackdev.data.api.BookmarkApi
 import com.example.xhackdev.data.api.TeamsApi
 import com.example.xhackdev.data.api.UsersApi
+import com.example.xhackdev.data.models.InviteUserDto
+import com.example.xhackdev.data.models.ShortTeamDetailsDto
 import com.example.xhackdev.data.models.UserBookmarkRequest
 import com.example.xhackdev.data.models.UserDetailsDto
 import dagger.assisted.Assisted
@@ -18,6 +20,10 @@ class UserDetailsViewModel @AssistedInject constructor(
     private val usersApi: UsersApi,
     @Assisted private val userId: Int
     ): BaseViewModel() {
+
+    private val _myTeams = MutableLiveData<List<ShortTeamDetailsDto>>()
+    val myteams: LiveData<List<ShortTeamDetailsDto>> = _myTeams
+
 
     private val _userInfo = MutableLiveData<UserDetailsDto>()
     val userInfo: LiveData<UserDetailsDto> = _userInfo
@@ -51,6 +57,50 @@ class UserDetailsViewModel @AssistedInject constructor(
             val qwe = e.message
         } finally {
 
+        }
+    }
+
+//TODO add room for user
+    fun getMyteams(){
+        viewModelScope.launch {
+            try {
+                _isLoading.postValue(true)
+                val response = teamsApi.getMyTeamsRequest()
+                _isLoading.postValue(false)
+
+                if(response.isSuccessful){
+                    response.body()?.let {
+                        _myTeams.value = it //todo filter by captain
+                    }
+                }else{
+                    val qwe = "govno"
+                }
+            } catch (e:Exception){
+                val qwe = e.message
+            } finally {
+
+            }
+        }
+    }
+
+
+    fun sendRequestToUser(teamId: Int){
+        viewModelScope.launch {
+            try {
+                _isLoading.postValue(true)
+                val response = teamsApi.sendRequestToUser(InviteUserDto(userId, teamId))
+                _isLoading.postValue(false)
+
+                if(response.isSuccessful){
+                    loadContent()
+                }else{
+                    val qwe = "govno"
+                }
+            } catch (e:Exception){
+                val qwe = e.message
+            } finally {
+
+            }
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.xhackdev.presenter.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.xhackdev.data.api.UsersApi
 import com.example.xhackdev.data.models.RequestDto
 import com.example.xhackdev.data.primitives.RequestType
 import com.example.xhackdev.domain.models.RequestItem
@@ -12,7 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor() : BaseViewModel() {
+class ProfileViewModel @Inject constructor(
+    private val usersApi: UsersApi
+) : BaseViewModel() {
 
     val items = MutableLiveData<List<Any>>()
 
@@ -24,24 +27,29 @@ class ProfileViewModel @Inject constructor() : BaseViewModel() {
     }
 
 
-//    override suspend fun loadContent() {
-//        try {
-//            _isLoading.postValue(true)
-//            val response =
-//            _isLoading.postValue(false)
-//
-//            if (response.isSuccessful) {
-//                response.body()?.let { it ->
-//
-//
-//                }
-//            } else {
-//                val qwe = "oshibka"
-//            }
-//        } catch (e: Exception) {
-//
-//        } finally {
-//            _isLoading.postValue(false)
-//        }
-//    }
+    override suspend fun loadContent() {
+        try {
+            _isLoading.postValue(true)
+            val response = usersApi.getProfile()
+            _isLoading.postValue(false)
+
+            if (response.isSuccessful) {
+                response.body()?.let { it ->
+
+
+                }
+            } else {
+                val qwe = "oshibka"
+            }
+        } catch (e: Exception) {
+
+        } finally {
+            _isLoading.postValue(false)
+        }
+    }
+
+
+    fun logOut(){
+
+    }
 }
