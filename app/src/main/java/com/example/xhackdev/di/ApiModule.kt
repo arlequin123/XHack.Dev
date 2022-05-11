@@ -1,10 +1,7 @@
 package com.example.xhackdev.di
 
 import android.content.Context
-import com.example.xhackdev.data.api.AuthApi
-import com.example.xhackdev.data.api.BookmarkApi
-import com.example.xhackdev.data.api.TeamsApi
-import com.example.xhackdev.data.api.UsersApi
+import com.example.xhackdev.data.api.*
 import com.example.xhackdev.data.sharedprefs.SharedPrefsAccessToken
 import com.example.xhackdev.data.storage.AccessTokenStorage
 import com.example.xhackdev.utils.Constants
@@ -84,5 +81,11 @@ class ApiModule {
     @Singleton
     fun provideBookmarkApi(retrofit: Retrofit): BookmarkApi {
         return retrofit.create(BookmarkApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTagsApi(retrofit: Retrofit): TagsApi {
+        return retrofit.create(TagsApi::class.java)
     }
 }

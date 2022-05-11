@@ -18,6 +18,18 @@
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.example.xhackdev.presenter.fragments.EditProfileFragment"
-        android:label="EditProfileFragment" />
+        android:label="EditProfileFragment" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_skillsFragment"
+            app:destination="@id/skillsFragment" />
+    </fragment>
     <include app:graph="@navigation/favourites_graph" />
+    <fragment
+        android:id="@+id/skillsFragment"
+        android:name="com.example.xhackdev.presenter.fragments.SkillsFragment"
+        android:label="SkillsFragment" >
+        <argument
+            android:name="selectedIds"
+            app:argType="integer[]" />
+    </fragment>
 </navigation>

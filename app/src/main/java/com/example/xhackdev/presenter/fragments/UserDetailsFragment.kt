@@ -124,7 +124,7 @@ class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
 
     fun sendRequest(){
         if(teams.isEmpty()){
-            Toast.makeText(requireContext(), "Net command loh", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), "Net command loh", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -152,7 +152,7 @@ class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
         bottomSheetBinding.requestsRv.layoutManager = layoutManager
 
         bottomSheetBinding.requestsRv.adapter = adapter
-        adapter.itemSource = requests
+        adapter.submitList(requests)
 
         adapter.setDelegate(object: RequestActionDelegate{
             override fun acceptRequest(requestId: Int) {
@@ -162,7 +162,7 @@ class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
             override fun declineRequest(requestId: Int) {
                 vm.declineRequestFromUser(requestId)
                 requests = requests.filter { r -> r.id != requestId }
-                adapter.itemSource = requests
+                adapter.submitList(requests)
 
                 if(requests.isEmpty()){
                     bindings.sendRequestButton.text = "Send request"

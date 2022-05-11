@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatEditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/network"
+    android:layout_width="match_parent"
+    android:layout_height="43dp"
+    android:background="@drawable/white_37x_corner_radius_background"
+    android:elevation="13dp"
+    android:textColor="@android:color/holo_blue_dark"
+    android:textAlignment="center" />

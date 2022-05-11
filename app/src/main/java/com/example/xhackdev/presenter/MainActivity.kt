@@ -66,19 +66,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun showLoader(isVisible: Boolean) {
-        binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
-
-        if (isVisible) {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        } else {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        }
-    }
-
-
     private fun observeSplashScreenVisibility(splash: SplashScreen) {
         splash.setKeepOnScreenCondition{ true }
 

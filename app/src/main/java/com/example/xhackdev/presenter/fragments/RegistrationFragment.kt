@@ -48,7 +48,7 @@ class RegistrationFragment: Fragment(R.layout.fragment_registration) {
         }
 
         vm.isLoading.observe(viewLifecycleOwner){
-            mainActivity().showLoader(it)
+
         }
 
         bindings.loginBtn.setOnClickListener {

@@ -36,6 +36,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/pickAvatarImage"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/circle_background"
+            android:backgroundTint="@color/blackAlpha40"
+            android:padding="40dp"
+            android:src="@drawable/ic_photo_placeholder"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/saveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/corner_radius_15x_background"
+            android:text="Save"
+            android:elevation="4dp"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -99,16 +125,18 @@
             android:id="@+id/contactsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="45dp"
             app:layout_constraintTop_toBottomOf="@id/specializationEditText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/newContact_EditText"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/newContactBtn"
             android:layout_width="match_parent"
             android:layout_height="43dp"
+            android:layout_marginTop="10dp"
             android:layout_marginHorizontal="40dp"
             android:background="@drawable/white_37x_corner_radius_background"
             android:elevation="13dp"
@@ -129,7 +157,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginStart="50dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/newContact_EditText"/>
+            app:layout_constraintTop_toBottomOf="@id/newContactBtn"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/editSkillsButton"
@@ -154,11 +182,9 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:layout_marginTop="60dp"
-            app:layout_constraintTop_toBottomOf="@id/newContact_EditText"
+            app:layout_constraintTop_toBottomOf="@id/newContactBtn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

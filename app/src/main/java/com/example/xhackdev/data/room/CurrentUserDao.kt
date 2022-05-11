@@ -1,8 +1,6 @@
 package com.example.xhackdev.data.room
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.xhackdev.data.room.entities.CurrentUserEntity
 
 @Dao
@@ -13,4 +11,10 @@ interface  CurrentUserDao {
 
     @Update
     suspend fun updateUser(currentUse: CurrentUserEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addUser(currentUse: CurrentUserEntity)
+
+    @Delete
+    suspend fun deleteUser(currentUse: CurrentUserEntity)
 }

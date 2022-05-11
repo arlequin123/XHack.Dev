@@ -10,7 +10,7 @@ interface UsersApi {
     @GET("/api/users/{id}")
     suspend fun getUser(@Path("id") userId: Int) : Response<UserDetailsDto>
 
-    @GET("/api/users/profile}")
+    @GET("/api/users/profile")
     suspend fun getProfile() : Response<ProfileDto>
 
     @PATCH("/api/users/profile")

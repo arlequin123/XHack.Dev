@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.xhackdev.data.room.AppDataBase
 import com.example.xhackdev.data.room.CurrentUserDao
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,5 +26,10 @@ class RoomModule {
     @Provides
     fun provideCurrentUserDao(database: AppDataBase): CurrentUserDao {
         return database.getCurrentUserDao()
+    }
+
+    @Provides
+    fun provideGson(): Gson{
+        return Gson()
     }
 }

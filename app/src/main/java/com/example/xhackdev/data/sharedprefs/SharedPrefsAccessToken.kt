@@ -17,4 +17,8 @@ class SharedPrefsAccessToken(context: Context) : AccessTokenStorage {
     override fun getAccessToken(): String {
         return sharedPrefs.getString(KEY_ACCESS_TOKEN, "").orEmpty()
     }
+
+    override fun clearAccessToken() {
+        sharedPrefs.edit().putString(KEY_ACCESS_TOKEN, "").apply()
+    }
 }

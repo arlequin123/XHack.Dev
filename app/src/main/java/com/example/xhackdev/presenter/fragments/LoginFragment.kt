@@ -33,7 +33,7 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
             ViewGroup.LayoutParams.WRAP_CONTENT)
 
         vm.isLoading.observe(viewLifecycleOwner){
-            mainActivity().showLoader(it)
+
         }
 
         binding.loginBtn.setOnClickListener {

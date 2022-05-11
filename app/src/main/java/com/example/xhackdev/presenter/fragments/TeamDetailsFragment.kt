@@ -16,8 +16,6 @@ import com.example.xhackdev.databinding.FragmentTeamDetailsBinding
 import com.example.xhackdev.presenter.adapters.SkillsAdapter
 import com.example.xhackdev.presenter.adapters.TeamParticipantsAdapter
 import com.example.xhackdev.presenter.viewModels.TeamDetailsViewModel
-import com.example.xhackdev.utils.ViewModelFactory
-import com.example.xhackdev.utils.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -62,7 +60,7 @@ class TeamDetailsFragment : Fragment(R.layout.fragment_team_details) {
 
             bindings.teamName.text = it.name
             bindings.description.text = it.description
-            bindings.teamDescriptionLayout.visibility = if(it.description.isNullOrEmpty()) View.GONE else View.VISIBLE
+            bindings.teamDescriptionLayout.visibility = if(it.description.isEmpty()) View.GONE else View.VISIBLE
 
             val layoutManager =
                 GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)

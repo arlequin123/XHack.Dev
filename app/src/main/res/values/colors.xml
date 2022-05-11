@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="onlineGreen">#7BE9A7</color>
     <color name="lightGrey">#F3F3F3</color>
+    <color name="blackAlpha40">#66000000</color>
 
     <color name="messageBubble">#dedede</color>
     <color name="messageAuthorColor">#696969</color>

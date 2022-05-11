@@ -7,5 +7,6 @@ data class UserDto(
     val isAvailableForSearching: Boolean,
     val specialization: String,
     val email: String,
-    val description: String
+    val description: String,
+    val networks: List<String>
 )
