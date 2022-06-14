@@ -14,5 +14,5 @@ interface UsersApi {
     suspend fun getProfile() : Response<ProfileDto>
 
     @PATCH("/api/users/profile")
-    suspend fun updateProfile(@Body profile: Int) : Response<Unit>
+    suspend fun updateProfile(@Body profile: ProfileDto) : Response<Unit>
 }

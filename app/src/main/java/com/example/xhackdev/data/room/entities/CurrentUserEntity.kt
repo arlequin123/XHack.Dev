@@ -4,7 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.xhackdev.data.models.ProfileDto
+import com.example.xhackdev.data.models.TagDto
 import com.example.xhackdev.utils.fromJson
+
 import com.google.gson.Gson
 
 
@@ -25,6 +27,7 @@ data class CurrentUserEntity(
 )
 
 fun CurrentUserEntity.toProfileDto(gson: Gson) = ProfileDto(
+    id = this.id,
     avatarUrl = this.avatarUrl,
     name = this.name,
     email = this.email,

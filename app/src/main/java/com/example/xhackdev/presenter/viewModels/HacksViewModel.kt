@@ -3,60 +3,31 @@ package com.example.xhackdev.presenter.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.example.xhackdev.data.api.HackathonApi
 import com.example.xhackdev.data.api.TeamsApi
+import com.example.xhackdev.data.models.HackDto
+import com.example.xhackdev.data.models.HackathonListRequestDto
 import com.example.xhackdev.data.models.RequestDto
 import com.example.xhackdev.data.primitives.RequestType
+import com.example.xhackdev.data.repository.HACK_PAGE_SIZE
+import com.example.xhackdev.data.repository.HackRemoteDataSourceImpl
 import com.example.xhackdev.domain.models.RequestItem
 import com.example.xhackdev.domain.models.RequestsToTeam
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HacksViewModel @Inject constructor(private val teamsApi: TeamsApi): BaseViewModel() {
+class HacksViewModel @Inject constructor(private val hacksApi: HackathonApi): BaseViewModel() {
 
-    private val _requests = MutableLiveData<MutableList<RequestsToTeam>>()
-    val requests: LiveData<MutableList<RequestsToTeam>> = _requests
+    val hacks: Flow<PagingData<HackDto>>
+    private val rep = HackRemoteDataSourceImpl(hacksApi)
 
     init {
-        viewModelScope.launch {
-            loadContent()
-        }
-    }
-
-
-    override suspend fun loadContent() {
-        try {
-            _isLoading.postValue(true)
-            val response = teamsApi.getTeamsRequests()
-            _isLoading.postValue(false)
-
-            if (response.isSuccessful) {
-                response.body()?.let { it ->
-
-                    val createRequestItem = fun(request: RequestDto): RequestItem = RequestItem(
-                        request.id,
-                        request.user,
-                        request.team,
-                        request.type,
-                        request.isCanceled
-                    )
-
-                    val requestsFromTeams = it.fromTeams.map(createRequestItem)
-                    val requestsFromUsers = it.fromUsers.map(createRequestItem)
-
-                    _requests.value = mutableListOf(
-                        RequestsToTeam(requestsFromTeams, RequestType.TeamToUser),
-                        RequestsToTeam(requestsFromUsers, RequestType.UserToTeam)
-                    )
-                }
-            } else {
-                val qwe = "oshibka"
-            }
-        } catch (e: Exception) {
-
-        } finally {
-            _isLoading.postValue(false)
-        }
+        rep.getHacks().cachedIn(viewModelScope).also { hacks = it }
     }
 }

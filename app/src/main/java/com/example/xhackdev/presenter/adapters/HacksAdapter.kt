@@ -2,16 +2,17 @@ package com.example.xhackdev.presenter.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.xhackdev.R
+import com.example.xhackdev.data.models.HackDto
 import com.example.xhackdev.databinding.HackItemBinding
 
-class HacksAdapter: RecyclerView.Adapter<HacksAdapter.HackViewHolder>() {
+class HacksAdapter: PagingDataAdapter<HackDto, HacksAdapter.HackViewHolder>(HacksDiffCallBack()) {
 
-    var itemsSource: List<Any> = emptyList()
-        set(newValue) {
-            field = newValue
-            notifyDataSetChanged()
-        }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HackViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -20,17 +21,33 @@ class HacksAdapter: RecyclerView.Adapter<HacksAdapter.HackViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: HackViewHolder, position: Int) {
-        holder.bind(itemsSource[position])
+        holder.bind(getItem(position)!!)
     }
 
-    override fun getItemCount() = itemsSource.size
 
 
     class HackViewHolder(private val binding: HackItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(hack: Any) {
-
+        fun bind(hack: HackDto) {
+            binding.hackName.text = hack.name
+            binding.description.text = hack.description
+            Glide.with(binding.hackAvatarImage)
+                .load(hack.avatarUrl)
+                .circleCrop()
+                .placeholder(R.drawable.ic_default_team_avatar)
+                .error(R.drawable.ic_default_team_avatar)
+                .into(binding.hackAvatarImage)
         }
+    }
+}
+
+class HacksDiffCallBack : DiffUtil.ItemCallback<HackDto>() {
+    override fun areItemsTheSame(oldItem: HackDto, newItem: HackDto): Boolean {
+        return oldItem.description == newItem.description
+    }
+
+    override fun areContentsTheSame(oldItem: HackDto, newItem: HackDto): Boolean {
+        return oldItem == newItem
     }
 }

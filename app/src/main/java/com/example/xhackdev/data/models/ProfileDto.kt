@@ -1,6 +1,7 @@
 package com.example.xhackdev.data.models
 
 data class ProfileDto(
+    val id: Int,
     val avatarUrl: String?,
     val name: String,
     val email: String,

@@ -8,6 +8,7 @@ import androidx.navigation.ui.NavigationUI
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.xhackdev.R
 import com.example.xhackdev.databinding.FragmentTabsBinding
+import com.example.xhackdev.utils.mainActivity
 
 class TabsFragment: Fragment(R.layout.fragment_tabs) {
 
@@ -19,6 +20,7 @@ class TabsFragment: Fragment(R.layout.fragment_tabs) {
         val navHost = childFragmentManager.findFragmentById(R.id.tabsContainer) as NavHostFragment
         val navController = navHost.navController
 
+        mainActivity().bottomNavigationView = bindings.bottomNavigationView
         NavigationUI.setupWithNavController(bindings.bottomNavigationView, navController)
     }
 }

@@ -110,7 +110,7 @@ class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
                 }
             })
 
-            adapter.itemSource = it.tags
+            //adapter.itemSource = it.tags
 
             it.networks.forEach { network ->
                 bindings.contacts.append("$network\n")

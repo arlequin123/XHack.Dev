@@ -20,6 +20,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.xhackdev.R
 import com.example.xhackdev.databinding.ActivityMainBinding
 import com.example.xhackdev.presenter.fragments.TabsFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -33,8 +34,10 @@ class MainActivity : AppCompatActivity() {
 
     // nav controller of the current screen
     private var navController: NavController? = null
-
     private val topLevelDestinations = setOf(getTabsDestination(), getLoginDestination(), getHomeDestination())
+    private val mainDestinations = setOf(getTabsDestination(), getHomeDestination(), getHacksDestination(), getMessengerDestination(), getProfileDestination())
+
+    var bottomNavigationView: BottomNavigationView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,6 +99,11 @@ class MainActivity : AppCompatActivity() {
             savedInstanceState: Bundle?
         ) {
             super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+
+            bottomNavigationView?.let {
+                it.visibility = if(mainDestinations.contains(navController?.currentDestination?.id ?: 0)) View.VISIBLE else View.GONE
+            }
+
             if (f is TabsFragment || f is NavHostFragment) return
             onNavControllerActivated(f.findNavController())
         }
@@ -140,6 +148,12 @@ class MainActivity : AppCompatActivity() {
     private fun getLoginDestination(): Int = R.id.loginFragment
 
     private fun getHomeDestination(): Int = R.id.homeFragment
+
+    private fun getHacksDestination(): Int = R.id.hacksFragment
+
+    private fun getMessengerDestination(): Int = R.id.messengerFragment
+
+    private fun getProfileDestination(): Int = R.id.profileFragment
 
     private fun getMainNavigationGraphId(): Int = R.navigation.main_nav_graph
 }

@@ -72,8 +72,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             bindings.userSpecialization.text = it.specialization
             adapter.itemSource = it.tags
 
-            it.networks.forEach { network ->
-                bindings.contacts.append("$network\n")
+            bindings.contacts.text = ""
+                it.networks.forEach { network ->
+                bindings.contacts.append("${network.contact}\n")
             }
         }
 
@@ -98,6 +99,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 val options = builder.setPopUpTo(findTopNavController().graph.startDestinationId, true).build()
                 findTopNavController().navigate(R.id.action_global_loginFragment, null, options)
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            vm.loadContent()
         }
     }
 }

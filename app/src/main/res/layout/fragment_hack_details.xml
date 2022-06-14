@@ -39,7 +39,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/teamAvatarImage"
+            android:id="@+id/hackAvatarImage"
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_marginTop="20dp"
@@ -49,14 +49,14 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/teamName"
+            android:id="@+id/hackName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_medium"
-            android:textSize="62sp"
+            android:textSize="20sp"
             android:text="Jane Ann"
             android:textColor="#696969"
-            app:layout_constraintTop_toBottomOf="@id/teamAvatarImage"
+            app:layout_constraintTop_toBottomOf="@id/hackAvatarImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -72,16 +72,48 @@
             android:paddingVertical="12dp"
             android:paddingHorizontal="20dp"
             android:animateLayoutChanges="true"
-            android:background="@drawable/corner_radius_15x_background"
-            android:backgroundTint="@color/messageBubble"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/teamName">
+            app:layout_constraintTop_toBottomOf="@id/hackName">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description"
+                android:text="Место проведения"
+                android:fontFamily="@font/montserrat_medium"
+                android:textSize="22sp"
+                android:textColor="@color/black"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="test test"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="17sp"
+                android:textColor="@color/black"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/registrationLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="11dp"
+            android:layout_marginTop="20dp"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="20dp"
+            android:animateLayoutChanges="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hackName">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Регистрация"
                 android:fontFamily="@font/montserrat_medium"
                 android:textSize="22sp"
                 android:textColor="@color/black"/>

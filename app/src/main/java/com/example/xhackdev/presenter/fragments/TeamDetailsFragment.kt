@@ -1,8 +1,10 @@
 package com.example.xhackdev.presenter.fragments
 
+import android.animation.LayoutTransition
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -29,6 +31,8 @@ class TeamDetailsFragment : Fragment(R.layout.fragment_team_details) {
 
     private val skillsAdapter = SkillsAdapter()
     private val teamParticipantsAdapter = TeamParticipantsAdapter()
+
+    private var isCollapsed = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,6 +64,24 @@ class TeamDetailsFragment : Fragment(R.layout.fragment_team_details) {
 
             bindings.teamName.text = it.name
             bindings.description.text = it.description
+            bindings.description.maxLines = 3
+            bindings.descriptionBtn.setOnClickListener {
+                if(isCollapsed){
+                    bindings.description.maxLines = Integer.MAX_VALUE
+                    bindings.descriptionBtn.text = "Collapse"
+                }else{
+                    bindings.description.maxLines = 3
+
+                    bindings.descriptionBtn.text = "Show all"
+                }
+                isCollapsed = !isCollapsed
+            }
+
+            applyTransition()
+
+            //bindings.descriptionBtn.visibility =
+
+
             bindings.teamDescriptionLayout.visibility = if(it.description.isEmpty()) View.GONE else View.VISIBLE
 
             val layoutManager =
@@ -83,5 +105,12 @@ class TeamDetailsFragment : Fragment(R.layout.fragment_team_details) {
 
             teamParticipantsAdapter.itemSource = it.members
         }
+    }
+
+    private fun applyTransition(){
+        val transition = LayoutTransition()
+        transition.setDuration(200)
+        transition.enableTransitionType(LayoutTransition.CHANGING)
+        bindings.teamDescriptionLayout.layoutTransition = transition
     }
 }

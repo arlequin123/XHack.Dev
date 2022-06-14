@@ -12,7 +12,7 @@ class ProfileModel(
     var description: String,
     var specialization: String,
     var networks: ArrayList<Network>,
-    var tags: ArrayList<TagDto>,
+    var tags: ArrayList<Tag>,
 ){
     constructor(profileDto: ProfileDto): this(
         profileDto.avatarUrl,
@@ -21,6 +21,6 @@ class ProfileModel(
         profileDto.description,
         profileDto.specialization,
         ArrayList(profileDto.networks.map { Network(it) }),
-        ArrayList(profileDto.tags)
+        ArrayList(profileDto.tags.map { Tag(it, true) })
     )
 }

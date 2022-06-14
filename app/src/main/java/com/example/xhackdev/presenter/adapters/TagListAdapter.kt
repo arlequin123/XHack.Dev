@@ -37,9 +37,18 @@ class TagListAdapter: ListAdapter<Tag, TagListAdapter.SelectionItemViewHolder>(I
     class SelectionItemViewHolder(private val binding: SelectionItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        private var tag: Tag? = null
+
+        init {
+            binding.switchBtn.setOnCheckedChangeListener { _, isChecked ->
+                tag?.isSelected = isChecked
+            }
+        }
+
         fun bind(tag: Tag) {
+            this.tag = tag
             binding.title.text = tag.name
-            binding.switchBtn.isSelected = tag.isSelected
+            binding.switchBtn.isChecked = tag.isSelected
         }
     }
 }

@@ -88,4 +88,18 @@ class ApiModule {
     fun provideTagsApi(retrofit: Retrofit): TagsApi {
         return retrofit.create(TagsApi::class.java)
     }
+
+
+    @Provides
+    @Singleton
+    fun provideFileApi(retrofit: Retrofit): FileApi {
+        return retrofit.create(FileApi::class.java)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideHackApi(retrofit: Retrofit): HackathonApi {
+        return retrofit.create(HackathonApi::class.java)
+    }
 }

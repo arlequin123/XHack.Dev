@@ -2,7 +2,9 @@ package com.example.xhackdev.presenter.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -39,5 +41,24 @@ class SkillsFragment: Fragment(R.layout.fragment_skills) {
         vm.tagList.observe(viewLifecycleOwner){
             adapter.submitList(it)
         }
+
+        bindings.selectAllBtn.setOnClickListener {
+            val isAllSelected = adapter.currentList.all { it.isSelected }
+            adapter.currentList.forEach {
+                it.isSelected = !isAllSelected
+            }
+            bindings.selectAllBtn.text = if (isAllSelected) "Deselect all" else "Select all"
+            adapter.notifyDataSetChanged()
+        }
+
+        bindings.saveBtn.setOnClickListener {
+            setFragmentResult(REQUEST_KEY, bundleOf(RESULT_EXTRA_KEY to vm.tagList.value?.filter { it.isSelected }))
+            findNavController().popBackStack()
+        }
+    }
+
+    companion object{
+        const val REQUEST_KEY = "tag_list__key"
+        const val RESULT_EXTRA_KEY = "extra_key"
     }
 }
