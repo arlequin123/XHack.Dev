@@ -9,10 +9,16 @@ import com.bumptech.glide.Glide
 import com.example.xhackdev.R
 import com.example.xhackdev.data.models.HackDto
 import com.example.xhackdev.databinding.HackItemBinding
+import com.example.xhackdev.domain.models.RequestItem
+import com.example.xhackdev.presenter.viewHolders.HackViewHolder
 
-class HacksAdapter: PagingDataAdapter<HackDto, HacksAdapter.HackViewHolder>(HacksDiffCallBack()) {
+class HacksAdapter : PagingDataAdapter<HackDto, HackViewHolder>(HacksDiffCallBack()) {
 
+    private var itemClickAction: (Int) -> Unit = {}
 
+    fun setItemClickAction(action: (Int) -> Unit) {
+        itemClickAction = action
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HackViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -22,23 +28,7 @@ class HacksAdapter: PagingDataAdapter<HackDto, HacksAdapter.HackViewHolder>(Hack
 
     override fun onBindViewHolder(holder: HackViewHolder, position: Int) {
         holder.bind(getItem(position)!!)
-    }
-
-
-
-    class HackViewHolder(private val binding: HackItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(hack: HackDto) {
-            binding.hackName.text = hack.name
-            binding.description.text = hack.description
-            Glide.with(binding.hackAvatarImage)
-                .load(hack.avatarUrl)
-                .circleCrop()
-                .placeholder(R.drawable.ic_default_team_avatar)
-                .error(R.drawable.ic_default_team_avatar)
-                .into(binding.hackAvatarImage)
-        }
+        holder.setOnClickAction(itemClickAction)
     }
 }
 

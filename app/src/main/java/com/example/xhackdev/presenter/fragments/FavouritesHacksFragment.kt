@@ -22,8 +22,5 @@ class FavouritesHacksFragment: Fragment(R.layout.fragment_favourites_hacks) {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.hacksRecyclerView.layoutManager = layoutManager
         binding.hacksRecyclerView.adapter = adapter
-
-
-        //adapter.itemsSource = listOf(1,2,3,4,5,6)
     }
 }

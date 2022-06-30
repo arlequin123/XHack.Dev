@@ -23,6 +23,11 @@ class FavouritesPeopleFragment : Fragment(R.layout.fragment_favourites_people) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupBindings()
+    }
+
+
+    private fun setupBindings(){
         val layoutManager =
             GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 

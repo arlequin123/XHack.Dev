@@ -8,6 +8,8 @@ import com.example.xhackdev.data.models.TeamDetailsDto
 import com.example.xhackdev.data.models.UserBookmarkRequest
 import com.example.xhackdev.data.models.UserDetailsDto
 import com.example.xhackdev.domain.models.TeamDetailsModel
+import com.example.xhackdev.domain.usecases.GetTeamsDetailsRequestUseCase
+import com.example.xhackdev.utils.Result
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -18,7 +20,7 @@ import javax.inject.Inject
 
 class TeamDetailsViewModel @AssistedInject constructor(
     private val bookmarkApi: BookmarkApi,
-    private val teamsApi: TeamsApi,
+    private val getTeamsDetailsRequestUseCase: GetTeamsDetailsRequestUseCase,
     @Assisted private val teamId: Int
 ) :
     BaseViewModel() {
@@ -38,24 +40,20 @@ class TeamDetailsViewModel @AssistedInject constructor(
 
 
     override suspend fun loadContent() {
-        try {
             _isLoading.postValue(true)
-            val response = teamsApi.getTeamsDetailsRequest(teamId)
+            val response = getTeamsDetailsRequestUseCase.execute(teamId)
             _isLoading.postValue(false)
 
-            if(response.isSuccessful){
-                response.body()?.let {
-
+        when(response){
+            is Result.Success ->{
+                response.data?.let {
                     _teamInfo.value = TeamDetailsModel(it)
                     _isBookmarked.value = it.isBookmarked
                 }
-            }else{
-                val qwe = "govno"
             }
-        } catch (e:Exception){
-            val qwe = e.message
-        } finally {
+            is Result.Error ->{
 
+            }
         }
     }
 

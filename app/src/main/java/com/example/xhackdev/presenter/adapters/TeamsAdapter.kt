@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.xhackdev.databinding.HackItemBinding
 import com.example.xhackdev.databinding.TeamItemBinding
+import com.example.xhackdev.presenter.viewHolders.TeamViewHolder
 
-class TeamsAdapter: RecyclerView.Adapter<TeamsAdapter.TeamViewHolder>() {
+class TeamsAdapter: RecyclerView.Adapter<TeamViewHolder>() {
 
     var itemsSource: List<Any> = emptyList()
         set(newValue) {
@@ -26,12 +27,4 @@ class TeamsAdapter: RecyclerView.Adapter<TeamsAdapter.TeamViewHolder>() {
 
     override fun getItemCount() = itemsSource.size
 
-
-    class TeamViewHolder(private val binding: TeamItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(hack: Any) {
-
-        }
-    }
 }

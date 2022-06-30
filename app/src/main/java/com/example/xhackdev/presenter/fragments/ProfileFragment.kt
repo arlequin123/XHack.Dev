@@ -35,72 +35,76 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layoutManager =
-            GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
-
-        bindings.skillsList.layoutManager = layoutManager
-        bindings.skillsList.adapter = adapter
-        bindings.skillsList.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                outRect.left = 9
-                outRect.right = 9
-                outRect.bottom = 9
-                outRect.top = 9
-            }
-        })
-
+        setupBindings()
 
         vm.userInfo.observe(viewLifecycleOwner) {
-            if (!it.avatarUrl.isNullOrBlank()) {
-                Glide.with(bindings.userAvatarImage)
-                    .load(it.avatarUrl)
-                    .circleCrop()
-                    .placeholder(R.drawable.ic_default_user_avatar)
-                    .error(R.drawable.ic_default_user_avatar)
-                    .into(bindings.userAvatarImage)
-            } else {
-                bindings.userAvatarImage.setImageResource(R.drawable.ic_default_user_avatar)
-            }
+            Glide.with(bindings.userAvatarImage)
+                .load(it.avatarUrl)
+                .circleCrop()
+                .placeholder(R.drawable.ic_default_user_avatar)
+                .error(R.drawable.ic_default_user_avatar)
+                .into(bindings.userAvatarImage)
 
-            bindings.userName.text = it.name
-            bindings.userEmail.text = it.email
-            bindings.userSpecialization.text = it.specialization
-            adapter.itemSource = it.tags
+            bindings.apply {
+                userName.text = it.name
+                userEmail.text = it.email
+                userSpecialization.text = it.specialization
+                adapter.itemSource = it.tags
 
-            bindings.contacts.text = ""
+                contacts.text = ""
                 it.networks.forEach { network ->
-                bindings.contacts.append("${network.contact}\n")
-            }
-        }
-
-        bindings.editButton.setOnClickListener {
-            findNavController().navigate(
-                ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
-            )
-        }
-
-
-        bindings.userName.setOnClickListener {
-            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToFavouritesGraph())
-        }
-
-
-
-        bindings.logOutBtn.setOnClickListener {
-            lifecycleScope.launch {
-                vm.logOut()
-                //todo move to method
-                val builder = NavOptions.Builder()
-                val options = builder.setPopUpTo(findTopNavController().graph.startDestinationId, true).build()
-                findTopNavController().navigate(R.id.action_global_loginFragment, null, options)
+                    contacts.append("${network.contact}\n")
+                }
             }
         }
     }
+
+
+    private fun setupBindings() {
+        bindings.apply {
+            val layoutManager =
+                GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
+
+            skillsList.layoutManager = layoutManager
+            skillsList.adapter = adapter
+            skillsList.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+                ) {
+                    outRect.left = 9
+                    outRect.right = 9
+                    outRect.bottom = 9
+                    outRect.top = 9
+                }
+            })
+            editButton.setOnClickListener {
+                findNavController().navigate(
+                    ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
+                )
+            }
+
+
+            userName.setOnClickListener {
+                findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToFavouritesGraph())
+            }
+
+
+            logOutBtn.setOnClickListener {
+                lifecycleScope.launch {
+                    vm.logOut()
+                    val builder = NavOptions.Builder()
+                    val options =
+                        builder.setPopUpTo(findTopNavController().graph.startDestinationId, true)
+                            .build()
+                    findTopNavController().navigate(R.id.action_global_loginFragment, null, options)
+                }
+            }
+        }
+    }
+
 
     override fun onResume() {
         super.onResume()

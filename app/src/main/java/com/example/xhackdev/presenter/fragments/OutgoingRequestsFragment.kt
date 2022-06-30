@@ -14,32 +14,44 @@ import com.example.xhackdev.presenter.viewModels.OutgoingRequestsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OutgoingRequestsFragment: Fragment(R.layout.fragment_outgoing_requests) {
+class OutgoingRequestsFragment : Fragment(R.layout.fragment_outgoing_requests) {
 
-    private val bindings: FragmentOutgoingRequestsBinding by viewBinding(FragmentOutgoingRequestsBinding::bind)
+    private val bindings: FragmentOutgoingRequestsBinding by viewBinding(
+        FragmentOutgoingRequestsBinding::bind
+    )
     private val vm: OutgoingRequestsViewModel by viewModels()
     private val adapter = OutgoingRequestsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layoutManager = LinearLayoutManager(requireContext())
-        bindings.recyclerView.layoutManager = layoutManager
-        bindings.recyclerView.adapter = adapter
+        setupBindings()
+        initSubscribes()
+    }
 
-        vm.isRefreshing.observe(viewLifecycleOwner){
+
+    private fun setupBindings() {
+        bindings.apply {
+            val layoutManager = LinearLayoutManager(requireContext())
+            recyclerView.layoutManager = layoutManager
+            recyclerView.adapter = adapter
+
+            swipeRefresh.setOnRefreshListener {
+                vm.refreshContent()
+            }
+
+            backButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
+    }
+
+    private fun initSubscribes() {
+        vm.isRefreshing.observe(viewLifecycleOwner) {
             bindings.swipeRefresh.isRefreshing = it
         }
 
-        bindings.swipeRefresh.setOnRefreshListener {
-            vm.refreshContent()
-        }
-
-        bindings.backButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        vm.requests.observe(viewLifecycleOwner){
+        vm.requests.observe(viewLifecycleOwner) {
             adapter.itemsSource = it
         }
     }

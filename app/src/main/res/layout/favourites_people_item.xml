@@ -19,7 +19,7 @@
         android:textSize="14sp"
         android:layout_marginTop="7dp"
         android:layout_gravity="center_horizontal"
-        android:text="Nameqwe"
+        android:text="Name"
         android:textColor="@color/black" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

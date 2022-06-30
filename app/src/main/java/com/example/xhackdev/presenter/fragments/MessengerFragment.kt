@@ -14,7 +14,7 @@ import com.example.xhackdev.presenter.viewModels.MessengerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MessengerFragment: Fragment(R.layout.fragment_messenger) {
+class MessengerFragment : Fragment(R.layout.fragment_messenger) {
 
     private val bindings: FragmentMessengerBinding by viewBinding(FragmentMessengerBinding::bind)
     private val vm: MessengerViewModel by viewModels()
@@ -23,12 +23,21 @@ class MessengerFragment: Fragment(R.layout.fragment_messenger) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupBindings()
+    }
+
+
+    private fun setupBindings() {
         val layoutManager = LinearLayoutManager(requireContext())
         bindings.chatRecyclerView.layoutManager = layoutManager
         bindings.chatRecyclerView.adapter = adapter
 
         adapter.setItemClickActions {
-            findNavController().navigate(MessengerFragmentDirections.actionMessengerFragmentToChatDetailsFragment(5))
+            findNavController().navigate(
+                MessengerFragmentDirections.actionMessengerFragmentToChatDetailsFragment(
+                    5
+                )
+            )
         }
     }
 }

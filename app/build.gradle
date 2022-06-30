@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.xhackdev"
-        minSdk 24
+        minSdk 26
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -101,6 +101,12 @@ dependencies {
     //paging
     var paging_version = "3.1.1"
     implementation("androidx.paging:paging-runtime-ktx:$paging_version")
+
+
+    //socket io
+    implementation ('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 }
 
 kapt {

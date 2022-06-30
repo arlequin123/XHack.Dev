@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HacksFragment: Fragment(R.layout.fragment_hacks) {
+class HacksFragment : Fragment(R.layout.fragment_hacks) {
 
     private val bindings: FragmentHacksBinding by viewBinding(FragmentHacksBinding::bind)
     private val vm: HacksViewModel by viewModels()
@@ -30,23 +30,40 @@ class HacksFragment: Fragment(R.layout.fragment_hacks) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupBindings()
+        initSubscribes()
+    }
+
+
+    private fun initSubscribes() {
+        vm.isRefreshing.observe(viewLifecycleOwner) {
+            bindings.swipeRefresh.isRefreshing
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            vm.hacks.collectLatest {
+                adapter.submitData(it)
+            }
+        }
+    }
+
+
+    private fun setupBindings() {
         val layoutManager = LinearLayoutManager(requireContext())
         bindings.hacksList.layoutManager = layoutManager
         bindings.hacksList.adapter = adapter.withLoadStateFooter(loadAdapter)
-
-        vm.isRefreshing.observe(viewLifecycleOwner){
-            bindings.swipeRefresh.isRefreshing
-        }
 
         bindings.swipeRefresh.setOnRefreshListener {
             adapter.refresh()
             bindings.swipeRefresh.isRefreshing = false
         }
 
-        viewLifecycleOwner.lifecycleScope.launch{
-            vm.hacks.collectLatest {
-                adapter.submitData(it)
-            }
+        adapter.setItemClickAction {
+            findNavController().navigate(
+                HacksFragmentDirections.actionHacksFragmentToHackDetailsFragment(
+                    it
+                )
+            )
         }
     }
 }

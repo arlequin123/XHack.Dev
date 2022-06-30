@@ -18,46 +18,62 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SkillsFragment: Fragment(R.layout.fragment_skills) {
+class SkillsFragment : Fragment(R.layout.fragment_skills) {
 
     private val bindings: FragmentSkillsBinding by viewBinding(FragmentSkillsBinding::bind)
     private val adapter = TagListAdapter()
-    @Inject lateinit var assistedFactory: SkillsViewModel.Factory
-    private val vm : SkillsViewModel by viewModels { SkillsViewModel.provideFactory(assistedFactory, args.selectedIds) }
+    @Inject
+    lateinit var assistedFactory: SkillsViewModel.Factory
+    private val vm: SkillsViewModel by viewModels {
+        SkillsViewModel.provideFactory(
+            assistedFactory,
+            args.selectedIds
+        )
+    }
     private val args: SkillsFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layoutManager = LinearLayoutManager(requireContext())
+        setupBindings()
 
-        bindings.recyclerView.layoutManager = layoutManager
-        bindings.recyclerView.adapter = adapter
-
-        bindings.backButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        vm.tagList.observe(viewLifecycleOwner){
+        vm.tagList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        }
-
-        bindings.selectAllBtn.setOnClickListener {
-            val isAllSelected = adapter.currentList.all { it.isSelected }
-            adapter.currentList.forEach {
-                it.isSelected = !isAllSelected
-            }
-            bindings.selectAllBtn.text = if (isAllSelected) "Deselect all" else "Select all"
-            adapter.notifyDataSetChanged()
-        }
-
-        bindings.saveBtn.setOnClickListener {
-            setFragmentResult(REQUEST_KEY, bundleOf(RESULT_EXTRA_KEY to vm.tagList.value?.filter { it.isSelected }))
-            findNavController().popBackStack()
         }
     }
 
-    companion object{
+
+    private fun setupBindings() {
+        bindings.apply {
+            val layoutManager = LinearLayoutManager(requireContext())
+
+            recyclerView.layoutManager = layoutManager
+            recyclerView.adapter = adapter
+
+            backButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
+            selectAllBtn.setOnClickListener {
+                val isAllSelected = adapter.currentList.all { it.isSelected }
+                adapter.currentList.forEach {
+                    it.isSelected = !isAllSelected
+                }
+                bindings.selectAllBtn.text = "Выбрать все"
+                adapter.notifyDataSetChanged()
+            }
+
+            saveBtn.setOnClickListener {
+                setFragmentResult(
+                    REQUEST_KEY,
+                    bundleOf(RESULT_EXTRA_KEY to vm.tagList.value?.filter { it.isSelected })
+                )
+                findNavController().popBackStack()
+            }
+        }
+    }
+
+    companion object {
         const val REQUEST_KEY = "tag_list__key"
         const val RESULT_EXTRA_KEY = "extra_key"
     }

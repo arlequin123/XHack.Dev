@@ -21,7 +21,6 @@ interface TeamsApi {
     @GET("/api/teams/withdrawRequest/{requestId}")
     suspend fun withdrawRequest(@Path("requestId") requestId: Int): Response<Unit>
 
-
     @GET("/api/teams/getDetails/{id}")
     suspend fun getTeamsDetailsRequest(@Path("id") id: Int): Response<TeamDetailsDto>
 

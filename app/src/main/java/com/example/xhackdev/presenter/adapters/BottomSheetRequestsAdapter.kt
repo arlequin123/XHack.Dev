@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.xhackdev.data.models.UserDetailsRequestDto
 import com.example.xhackdev.data.primitives.RequestType
 import com.example.xhackdev.databinding.BottomSheetRequestItemBinding
-import com.example.xhackdev.domain.models.RequestItem
+import com.example.xhackdev.presenter.viewHolders.BottomSheetRequestViewHolder
 
 class RequestDiffCallback : DiffUtil.ItemCallback<UserDetailsRequestDto>(){
 
@@ -34,7 +34,7 @@ interface RequestActionDelegate{
     fun withdrawRequest(requestId: Int)
 }
 
-class BottomSheetRequestsAdapter: ListAdapter<UserDetailsRequestDto, BottomSheetRequestsAdapter.RequestViewHolder>(RequestDiffCallback()) {
+class BottomSheetRequestsAdapter: ListAdapter<UserDetailsRequestDto, BottomSheetRequestViewHolder>(RequestDiffCallback()) {
 
     private var requestDelegate: RequestActionDelegate? = null
 
@@ -44,67 +44,19 @@ class BottomSheetRequestsAdapter: ListAdapter<UserDetailsRequestDto, BottomSheet
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RequestViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomSheetRequestViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itembinding = BottomSheetRequestItemBinding.inflate(inflater, parent, false)
-        return RequestViewHolder(itembinding)
+        return BottomSheetRequestViewHolder(itembinding)
     }
 
-    override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
-        holder.bind(getItem(position))
-        holder.setDelegate(requestDelegate)
+    override fun onBindViewHolder(holderBottomSheet: BottomSheetRequestViewHolder, position: Int) {
+        holderBottomSheet.bind(getItem(position))
+        holderBottomSheet.setDelegate(requestDelegate)
     }
 
 
 
 
-    class RequestViewHolder(private val binding: BottomSheetRequestItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
 
-        private var request: UserDetailsRequestDto? = null
-        private var requestDelegate: RequestActionDelegate? = null
-
-        init {
-            binding.acceptBtn.setOnClickListener {
-                request?.let {
-                    requestDelegate?.acceptRequest(it.id)
-                }
-            }
-
-            binding.declineBtn.setOnClickListener {
-                request?.let {
-                    requestDelegate?.declineRequest(it.id)
-                }
-            }
-
-            binding.revokeBtn.setOnClickListener {
-                request?.let {
-                    requestDelegate?.withdrawRequest(it.id)
-                }
-            }
-        }
-
-        fun bind(model: UserDetailsRequestDto) {
-            request = model
-            when(model.type){
-                RequestType.UserToTeam ->{
-                    binding.title.text = "Входящий запрос"
-                    binding.description.text = "В команду: ${model.team.name}"
-                    binding.bntLayout.visibility = View.VISIBLE
-                    binding.revokeBtn.visibility = View.GONE
-                }
-                RequestType.TeamToUser -> {
-                    binding.title.text = "Исходящий запрос"
-                    binding.description.text = "От команды: ${model.team.name}"
-                    binding.bntLayout.visibility = View.GONE
-                    binding.revokeBtn.visibility = View.VISIBLE
-                }
-                else -> binding.root.visibility = View.GONE
-            }
-        }
-
-        fun setDelegate(delegate: RequestActionDelegate?){
-            requestDelegate = delegate
-        }
-    }
 }

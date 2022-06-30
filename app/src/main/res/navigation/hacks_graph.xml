@@ -7,5 +7,17 @@
     <fragment
         android:id="@+id/hacksFragment"
         android:name="com.example.xhackdev.presenter.fragments.HacksFragment"
-        android:label="HacksFragment" />
+        android:label="HacksFragment" >
+        <action
+            android:id="@+id/action_hacksFragment_to_hackDetailsFragment"
+            app:destination="@id/hackDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/hackDetailsFragment"
+        android:name="com.example.xhackdev.presenter.fragments.HackDetailsFragment"
+        android:label="HackDetailsFragment" >
+        <argument
+            android:name="hackId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

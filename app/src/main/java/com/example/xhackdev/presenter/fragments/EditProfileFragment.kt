@@ -54,51 +54,19 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        imagePicker = ImagePicker(requireActivity().activityResultRegistry, viewLifecycleOwner) {
-            it?.let { uri ->
-                val stream = requireContext().contentResolver.openInputStream(uri) ?: return@let
-                val requestBody = stream.readBytes().toRequestBody("image/png".toMediaTypeOrNull())
-                val multiPartBody = MultipartBody.Part.createFormData("image", "fileName", requestBody)
-                vm.uploadImage(multiPartBody)
-            }
+        setupBindings()
+        initSubscribes()
 
+        setFragmentResultListener(SkillsFragment.REQUEST_KEY) { key, bundle ->
+            val tagList = bundle.get(SkillsFragment.RESULT_EXTRA_KEY) as? List<Tag>
+            tagList?.let {
+                vm.setTagList(it)
+            }
         }
+    }
 
-        val layoutManager =
-            GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
 
-        bindings.skillsList.layoutManager = layoutManager
-        bindings.skillsList.adapter = skillsAdapter
-        bindings.skillsList.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                outRect.left = 9
-                outRect.right = 9
-                outRect.bottom = 9
-                outRect.top = 9
-            }
-        })
-
-        val networkLayoutManager = LinearLayoutManager(requireContext())
-        bindings.contactsList.layoutManager = networkLayoutManager
-        bindings.contactsList.adapter = networksAdapter
-
-        bindings.contactsList.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                outRect.bottom = 10
-                outRect.top = 10
-            }
-        })
-
+    private fun initSubscribes() {
         vm.userInfo.observe(viewLifecycleOwner) {
             bindings.nameEditText.setText(it.name)
             bindings.specializationEditText.setText(it.specialization)
@@ -109,58 +77,102 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             tags = it.tags
         }
 
-        vm.avatarUrl.observe(viewLifecycleOwner){
-            if (!it.isNullOrBlank()) {
-                Glide.with(bindings.userAvatarImage)
-                    .load(it)
-                    .circleCrop()
-                    .placeholder(R.drawable.ic_default_user_avatar)
-                    .error(R.drawable.ic_default_user_avatar)
-                    .into(bindings.userAvatarImage)
-            } else {
-                bindings.userAvatarImage.setImageResource(R.drawable.ic_default_user_avatar)
-            }
+        vm.avatarUrl.observe(viewLifecycleOwner) {
+            Glide.with(bindings.userAvatarImage)
+                .load(it)
+                .circleCrop()
+                .placeholder(R.drawable.ic_default_user_avatar)
+                .error(R.drawable.ic_default_user_avatar)
+                .into(bindings.userAvatarImage)
         }
 
-        bindings.newContactBtn.setOnClickListener {
-            if(networks.any { it.contact.isBlank() }) return@setOnClickListener
-
-            networks = ArrayList(networks).apply { add(Network()) }
-            networksAdapter.itemSource = networks
-        }
-
-        bindings.pickAvatarImage.setOnClickListener {
-            imagePicker.pickImage()
-        }
-
-        bindings.backButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        bindings.editSkillsButton.setOnClickListener {
-            findNavController().navigate(EditProfileFragmentDirections.actionEditProfileFragmentToSkillsFragment(tags.map { it.id }.toIntArray()))
-        }
-
-        bindings.saveBtn.setOnClickListener {
-            vm.saveContent(
-                bindings.nameEditText.text.toString(),
-                bindings.specializationEditText.text.toString(),
-                networks.filter { it.contact.isNotBlank() }.map { it.contact },
-                tags.map { TagDto(it.id, it.name) }
-            )
-        }
-
-
-        setFragmentResultListener(SkillsFragment.REQUEST_KEY){ key, bundle ->
-            val tagList = bundle.get(SkillsFragment.RESULT_EXTRA_KEY) as? List<Tag>
-            tagList?.let {
-                vm.setTagList(it)
-            }
-        }
-
-        lifecycleScope.launchWhenStarted  {
+        lifecycleScope.launchWhenStarted {
             vm.sf.collect {
                 findNavController().popBackStack()
+            }
+        }
+    }
+
+
+    private fun setupBindings() {
+        imagePicker = ImagePicker(requireActivity().activityResultRegistry, viewLifecycleOwner) {
+            it?.let { uri ->
+                val stream = requireContext().contentResolver.openInputStream(uri) ?: return@let
+                val requestBody = stream.readBytes().toRequestBody("image/png".toMediaTypeOrNull())
+                val multiPartBody =
+                    MultipartBody.Part.createFormData("image", "fileName", requestBody)
+                vm.uploadImage(multiPartBody)
+            }
+
+        }
+
+        val layoutManager =
+            GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
+
+        bindings.apply {
+            skillsList.layoutManager = layoutManager
+            skillsList.adapter = skillsAdapter
+            skillsList.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+                ) {
+                    outRect.left = 9
+                    outRect.right = 9
+                    outRect.bottom = 9
+                    outRect.top = 9
+                }
+            })
+
+            val networkLayoutManager = LinearLayoutManager(requireContext())
+            contactsList.layoutManager = networkLayoutManager
+            contactsList.adapter = networksAdapter
+
+            contactsList.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+                ) {
+                    outRect.bottom = 10
+                    outRect.top = 10
+                }
+            })
+
+
+            newContactBtn.setOnClickListener {
+                if (networks.any { it.contact.isBlank() }) return@setOnClickListener
+
+                networks = ArrayList(networks).apply { add(Network()) }
+                networksAdapter.itemSource = networks
+            }
+
+            pickAvatarImage.setOnClickListener {
+                imagePicker.pickImage()
+            }
+
+            backButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
+            editSkillsButton.setOnClickListener {
+                findNavController().navigate(
+                    EditProfileFragmentDirections.actionEditProfileFragmentToSkillsFragment(
+                        tags.map { it.id }.toIntArray()
+                    )
+                )
+            }
+
+            saveBtn.setOnClickListener {
+                vm.saveContent(
+                    bindings.nameEditText.text.toString(),
+                    bindings.specializationEditText.text.toString(),
+                    networks.filter { it.contact.isNotBlank() }.map { it.contact },
+                    tags.map { TagDto(it.id, it.name) }
+                )
             }
         }
     }

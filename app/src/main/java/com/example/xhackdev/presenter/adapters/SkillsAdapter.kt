@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.xhackdev.data.models.TagDto
 import com.example.xhackdev.databinding.SkillItemBinding
 import com.example.xhackdev.domain.models.Tag
+import com.example.xhackdev.presenter.viewHolders.SkillViewHolder
 
-class SkillsAdapter : RecyclerView.Adapter<SkillsAdapter.SkillViewHolder>() {
+class SkillsAdapter : RecyclerView.Adapter<SkillViewHolder>() {
 
     var itemSource: List<Tag> = emptyList()
         set(newValue) {
@@ -29,12 +30,5 @@ class SkillsAdapter : RecyclerView.Adapter<SkillsAdapter.SkillViewHolder>() {
     override fun getItemCount() = itemSource.size
 
 
-    class SkillViewHolder(
-        private val binding: SkillItemBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(tag: Tag) {
-            binding.label.text = tag.name
-        }
-    }
 }

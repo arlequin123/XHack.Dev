@@ -3,16 +3,22 @@ package com.example.xhackdev.presenter.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.xhackdev.R
 import com.example.xhackdev.databinding.FragmentTabsBinding
+import com.example.xhackdev.presenter.viewModels.TabsViewModel
 import com.example.xhackdev.utils.mainActivity
+import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TabsFragment: Fragment(R.layout.fragment_tabs) {
 
     private val bindings: FragmentTabsBinding by viewBinding(FragmentTabsBinding::bind)
+    private val vm: TabsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

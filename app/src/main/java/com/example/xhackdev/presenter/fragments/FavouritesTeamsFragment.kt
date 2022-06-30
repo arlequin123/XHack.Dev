@@ -19,10 +19,14 @@ class FavouritesTeamsFragment: Fragment(R.layout.fragment_favourites_teams) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupBindings()
+    }
+
+
+    private fun setupBindings(){
         val layoutManager = LinearLayoutManager(requireContext())
         binding.teamsRecyclerView.layoutManager = layoutManager
         binding.teamsRecyclerView.adapter = adapter
-
 
         adapter.itemsSource = listOf(1,2,3,4,5,6)
     }

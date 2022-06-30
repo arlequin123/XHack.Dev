@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.xhackdev.data.models.TagDto
 import com.example.xhackdev.databinding.SelectionItemBinding
 import com.example.xhackdev.domain.models.Tag
+import com.example.xhackdev.presenter.viewHolders.TagSelectionItemViewHolder
 
 
 class ItemDiffCallback : DiffUtil.ItemCallback<Tag>(){
@@ -20,36 +21,20 @@ class ItemDiffCallback : DiffUtil.ItemCallback<Tag>(){
     }
 }
 
-class TagListAdapter: ListAdapter<Tag, TagListAdapter.SelectionItemViewHolder>(ItemDiffCallback())  {
+class TagListAdapter: ListAdapter<Tag, TagSelectionItemViewHolder>(ItemDiffCallback())  {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectionItemViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagSelectionItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemBinding = SelectionItemBinding.inflate(inflater, parent, false)
-        return SelectionItemViewHolder(itemBinding)
+        return TagSelectionItemViewHolder(itemBinding)
     }
 
-    override fun onBindViewHolder(holder: SelectionItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TagSelectionItemViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
 
-    class SelectionItemViewHolder(private val binding: SelectionItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
 
-        private var tag: Tag? = null
-
-        init {
-            binding.switchBtn.setOnCheckedChangeListener { _, isChecked ->
-                tag?.isSelected = isChecked
-            }
-        }
-
-        fun bind(tag: Tag) {
-            this.tag = tag
-            binding.title.text = tag.name
-            binding.switchBtn.isChecked = tag.isSelected
-        }
-    }
 }
 

@@ -24,6 +24,11 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupBindings()
+    }
+
+
+    private fun setupBindings(){
         binding.backButton.setOnClickListener {
             findNavController().navigateUp()
         }

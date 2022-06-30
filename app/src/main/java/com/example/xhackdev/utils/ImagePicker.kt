@@ -6,18 +6,23 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.LifecycleOwner
 
 class ImagePicker(
-    private val activityResultRegistry: ActivityResultRegistry,
-    private val lifecycleOwner: LifecycleOwner,
-    private val callback: (imageUri: Uri?) -> Unit
+    activityResultRegistry: ActivityResultRegistry,
+    lifecycleOwner: LifecycleOwner,
+    callback: (imageUri: Uri?) -> Unit
 ) {
 
-    private val getContent = activityResultRegistry.register(REGISTRY_KEY, lifecycleOwner, ActivityResultContracts.GetContent(), callback)
+    private val getContent = activityResultRegistry.register(
+        REGISTRY_KEY,
+        lifecycleOwner,
+        ActivityResultContracts.GetContent(),
+        callback
+    )
 
-    fun pickImage(){
+    fun pickImage() {
         getContent.launch("image/*")
     }
 
-    companion object{
+    companion object {
         private const val REGISTRY_KEY = "ImagePicker"
     }
 }

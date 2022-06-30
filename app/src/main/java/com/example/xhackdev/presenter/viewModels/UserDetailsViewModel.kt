@@ -8,6 +8,8 @@ import com.example.xhackdev.data.models.InviteUserDto
 import com.example.xhackdev.data.models.ShortTeamDetailsDto
 import com.example.xhackdev.data.models.UserBookmarkRequest
 import com.example.xhackdev.data.models.UserDetailsDto
+import com.example.xhackdev.domain.usecases.*
+import com.example.xhackdev.utils.Result
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -16,10 +18,14 @@ import kotlinx.coroutines.launch
 
 class UserDetailsViewModel @AssistedInject constructor(
     private val bookmarkApi: BookmarkApi,
-    private val teamsApi: TeamsApi,
+    private val acceptRequestUserToTeamUseCase: AcceptRequestUserToTeamUseCase,
+    private val declineRequestUserToTeamUseCase: DeclineRequestUserToTeamUseCase,
+    private val withdrawRequestUseCase: WithdrawRequestUseCase,
+    private val sendRequestToUserUseCase: SendRequestToUserUseCase,
+    private val getMyTeamsRequestUseCase: GetMyTeamsRequestUseCase,
     private val usersApi: UsersApi,
     @Assisted private val userId: Int
-    ): BaseViewModel() {
+) : BaseViewModel() {
 
     private val _myTeams = MutableLiveData<List<ShortTeamDetailsDto>>()
     val myteams: LiveData<List<ShortTeamDetailsDto>> = _myTeams
@@ -28,7 +34,7 @@ class UserDetailsViewModel @AssistedInject constructor(
     private val _userInfo = MutableLiveData<UserDetailsDto>()
     val userInfo: LiveData<UserDetailsDto> = _userInfo
 
-    //TODO add class for _userInfo
+
     private val _isBookmarked = MutableLiveData<Boolean>()
     val isBookmarked: LiveData<Boolean> = _isBookmarked
 
@@ -45,98 +51,67 @@ class UserDetailsViewModel @AssistedInject constructor(
             val response = usersApi.getUser(userId)
             _isLoading.postValue(false)
 
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 response.body()?.let {
                     _userInfo.value = it
                     _isBookmarked.value = it.isBookmarked
                 }
-            }else{
+            } else {
                 val qwe = "govno"
             }
-        } catch (e:Exception){
+        } catch (e: Exception) {
             val qwe = e.message
         } finally {
 
         }
     }
 
-//TODO add room for user
-    fun getMyteams(){
-        viewModelScope.launch {
-            try {
-                _isLoading.postValue(true)
-                val response = teamsApi.getMyTeamsRequest()
-                _isLoading.postValue(false)
 
-                if(response.isSuccessful){
-                    response.body()?.let {
-                        _myTeams.value = it //todo filter by captain
+    fun getMyteams() {
+        viewModelScope.launch {
+            getMyTeamsRequestUseCase
+            when (val response = getMyTeamsRequestUseCase.execute()) {
+                is Result.Success -> {
+                    response.data?.let {
+                        _myTeams.value = it
                     }
-                }else{
-                    val qwe = "govno"
                 }
-            } catch (e:Exception){
-                val qwe = e.message
-            } finally {
+                is Result.Error -> {
 
+                }
             }
         }
     }
 
 
-    fun sendRequestToUser(teamId: Int){
+    fun sendRequestToUser(teamId: Int) {
         viewModelScope.launch {
-            try {
-                _isLoading.postValue(true)
-                val response = teamsApi.sendRequestToUser(InviteUserDto(userId, teamId))
-                _isLoading.postValue(false)
-
-                if(response.isSuccessful){
+            when (sendRequestToUserUseCase.execute(InviteUserDto(userId, teamId))) {
+                is Result.Success -> {
                     loadContent()
-                }else{
-                    val qwe = "govno"
                 }
-            } catch (e:Exception){
-                val qwe = e.message
-            } finally {
+                is Result.Error -> {
 
+                }
             }
         }
     }
 
 
-    fun addOrRemoveFavourites(){
+    fun addOrRemoveFavourites() {
         viewModelScope.launch {
             try {
 
-                val response = when(_isBookmarked.value!!){
-                    true -> bookmarkApi.removeUserFromBookmark(UserBookmarkRequest(_userInfo.value!!.id))
+                val response = when (_isBookmarked.value!!) {
+                    true -> bookmarkApi.removeUserFromBookmark(UserBookmarkRequest(_userInfo.value!!.id))//todo fix !!.id
                     false -> bookmarkApi.addUserToBookmark(UserBookmarkRequest(_userInfo.value!!.id))
                 }
 
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     _isBookmarked.value = !_isBookmarked.value!!
-                } else{
+                } else {
                     val asd = "asd"
                 }
-            } catch (e: Exception){
-                val qwe = e.message
-            } finally {
-
-            }
-        }
-    }
-
-    fun acceptRequestFromUser(requestId: Int){
-        viewModelScope.launch {
-            try {
-                val response = teamsApi.acceptRequestUserToTeam(requestId)
-
-                if (response.isSuccessful) {
-
-                } else {
-                    val qwe = "govno"
-                }
             } catch (e: Exception) {
                 val qwe = e.message
             } finally {
@@ -145,40 +120,42 @@ class UserDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun declineRequestFromUser(requestId: Int){
+    fun acceptRequestFromUser(requestId: Int) {
         viewModelScope.launch {
-            try {
-                _isLoading.postValue(true)
-                val response = teamsApi.declineRequestUserToTeam(requestId)
-                _isLoading.postValue(false)
+            when (acceptRequestUserToTeamUseCase.execute(requestId)) {
+                is Result.Success -> {
 
-                if (response.isSuccessful) {
-
-                } else {
-                    val qwe = "govno"
                 }
-            } catch (e: Exception) {
-                val qwe = e.message
-            } finally {
+                is Result.Error -> {
 
+                }
             }
         }
     }
 
-    fun withdrowRequestToUser(requestId: Int){
+    fun declineRequestFromUser(requestId: Int) {
         viewModelScope.launch {
-            try {
-                val response = teamsApi.withdrawRequest(requestId)
+            when (declineRequestUserToTeamUseCase.execute(requestId)) {
+                is Result.Success -> {
 
-                if (response.isSuccessful) {
-
-                } else {
-                    val qwe = "govno"
                 }
-            } catch (e: Exception) {
-                val qwe = e.message
-            } finally {
+                is Result.Error -> {
 
+                }
+            }
+        }
+    }
+
+    fun withdrowRequestToUser(requestId: Int) {
+        viewModelScope.launch {
+            withdrawRequestUseCase
+            when (withdrawRequestUseCase.execute(requestId)) {
+                is Result.Success -> {
+
+                }
+                is Result.Error -> {
+
+                }
             }
         }
     }

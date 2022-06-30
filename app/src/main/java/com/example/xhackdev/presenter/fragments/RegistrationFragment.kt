@@ -17,7 +17,7 @@ import com.example.xhackdev.utils.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RegistrationFragment: Fragment(R.layout.fragment_registration) {
+class RegistrationFragment : Fragment(R.layout.fragment_registration) {
 
     private val bindings: FragmentRegistrationBinding by viewBinding(FragmentRegistrationBinding::bind)
     private val vm: RegistrationViewModel by viewModels()
@@ -26,38 +26,48 @@ class RegistrationFragment: Fragment(R.layout.fragment_registration) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindings.emailEditText.setText(args.email)
-        bindings.passwordEditText.setText(args.password)
+        setupBindings()
 
-        bindings.registernBtn.setOnClickListener {
-            val email = bindings.emailEditText.text.toString()
-            val password = bindings.passwordEditText.text.toString()
-            val name = bindings.nameEditText.text.toString()
-            val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-            if(!isEmailValid){
-                Toast.makeText(requireContext(), "Емейл введен не по формату", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            if(password.isEmpty() || name.isEmpty()){
-                Toast.makeText(requireContext(), "Пароль/имя не должны быть пустыми!", Toast.LENGTH_SHORT).show()
-            } else{
-                vm.tryRegister(email, password, name)
-            }
-        }
-
-        vm.isLoading.observe(viewLifecycleOwner){
-
-        }
-
-        bindings.loginBtn.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        lifecycleScope.launchWhenStarted  {
+        lifecycleScope.launchWhenStarted {
             vm.sf.collect {
                 findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToTabsFragment())
+            }
+        }
+    }
+
+    private fun setupBindings() {
+        bindings.apply {
+            emailEditText.setText(args.email)
+            passwordEditText.setText(args.password)
+
+            registernBtn.setOnClickListener {
+                val email = bindings.emailEditText.text.toString()
+                val password = bindings.passwordEditText.text.toString()
+                val name = bindings.nameEditText.text.toString()
+                val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+                if (!isEmailValid) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Емейл введен не по формату",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+
+                if (password.isEmpty() || name.isEmpty()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Пароль/имя не должны быть пустыми!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    vm.tryRegister(email, password, name)
+                }
+            }
+
+            loginBtn.setOnClickListener {
+                findNavController().popBackStack()
             }
         }
     }

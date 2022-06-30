@@ -28,107 +28,118 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
+class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
 
     private val bindings: FragmentUserDetailsBinding by viewBinding(FragmentUserDetailsBinding::bind)
     private val args: UserDetailsFragmentArgs by navArgs()
-    @Inject lateinit var assistedFactory: UserDetailsViewModel.Factory
-    private val vm: UserDetailsViewModel by viewModels { UserDetailsViewModel.provideFactory(assistedFactory, args.userId) }
+
+    @Inject
+    lateinit var assistedFactory: UserDetailsViewModel.Factory
+    private val vm: UserDetailsViewModel by viewModels {
+        UserDetailsViewModel.provideFactory(
+            assistedFactory,
+            args.userId
+        )
+    }
     private var requests: List<UserDetailsRequestDto> = emptyList()
     private var teams: List<ShortTeamDetailsDto> = emptyList()
-
-
     private val adapter = SkillsAdapter()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindings.sendRequestButton.setOnClickListener {
-            if(requests.isNotEmpty()) {
-                showBottomDialog()
-            } else {
-                vm.getMyteams()
-            }
+        setupBindings()
+        initSubscribes()
+    }
+
+
+    private fun initSubscribes() {
+        vm.isBookmarked.observe(viewLifecycleOwner) {
+            bindings.favoritesButton.setBackgroundResource(if (it) R.drawable.ic_star else R.drawable.ic_star_unchecked)
         }
 
-        bindings.backButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        bindings.favoritesButton.setOnClickListener {
-            vm.addOrRemoveFavourites()
-        }
-
-        vm.isBookmarked.observe(viewLifecycleOwner){
-            bindings.favoritesButton.setBackgroundResource(if(it) R.drawable.ic_star else R.drawable.ic_star_unchecked)
-        }
-
-        vm.myteams.observe(viewLifecycleOwner){
+        vm.myteams.observe(viewLifecycleOwner) {
             teams = it
             sendRequest()
         }
 
-        vm.userInfo.observe(viewLifecycleOwner){
-            if (!it.avatarUrl.isNullOrBlank()) {
-                Glide.with(bindings.userAvatarImage)
-                    .load(it.avatarUrl)
-                    .circleCrop()
-                    .placeholder(R.drawable.ic_default_user_avatar)
-                    .error(R.drawable.ic_default_user_avatar)
-                    .into(bindings.userAvatarImage)
-            } else {
-                bindings.userAvatarImage.setImageResource(R.drawable.ic_default_user_avatar)
-            }
+        vm.userInfo.observe(viewLifecycleOwner) {
+            Glide.with(bindings.userAvatarImage)
+                .load(it.avatarUrl)
+                .circleCrop()
+                .placeholder(R.drawable.ic_default_user_avatar)
+                .error(R.drawable.ic_default_user_avatar)
+                .into(bindings.userAvatarImage)
+            bindings.apply {
+                userName.text = it.name
+                userSpecialization.text = it.specialization
+                userEmail.text = it.email
 
+                val layoutManager =
+                    GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
-            bindings.userName.text = it.name
-            bindings.userSpecialization.text = it.specialization
-            bindings.userEmail.text = it.email
+                skillsList.layoutManager = layoutManager
+                skillsList.adapter = adapter
+                skillsList.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                    override fun getItemOffsets(
+                        outRect: Rect,
+                        view: View,
+                        parent: RecyclerView,
+                        state: RecyclerView.State
+                    ) {
+                        outRect.left = 9
+                        outRect.right = 9
+                        outRect.bottom = 9
 
-
-            val layoutManager =
-                GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
-
-            bindings.skillsList.layoutManager = layoutManager
-            bindings.skillsList.adapter = adapter
-            bindings.skillsList.addItemDecoration(object : RecyclerView.ItemDecoration() {
-                override fun getItemOffsets(
-                    outRect: Rect,
-                    view: View,
-                    parent: RecyclerView,
-                    state: RecyclerView.State
-                ) {
-                    outRect.left = 9
-                    outRect.right = 9
-                    outRect.bottom = 9
-
-                    if (parent.getChildLayoutPosition(view) != 0) {
-                        outRect.top = 9
-                    } else {
-                        outRect.top = 0
+                        if (parent.getChildLayoutPosition(view) != 0) {
+                            outRect.top = 9
+                        } else {
+                            outRect.top = 0
+                        }
                     }
+                })
+
+                it.networks.forEach { network ->
+                    bindings.contacts.append("$network\n")
                 }
-            })
 
-            //adapter.itemSource = it.tags
+                requests = it.requests
 
-            it.networks.forEach { network ->
-                bindings.contacts.append("$network\n")
+                sendRequestButton.text =
+                    if (requests.isNullOrEmpty()) "Отправить запрос" else "Показать запросы"
             }
-
-            requests = it.requests
-
-            bindings.sendRequestButton.text = if(requests.isNullOrEmpty()) "Send request" else "Show requests"
         }
     }
 
-    fun sendRequest(){
-        if(teams.isEmpty()){
-            Toast.makeText(requireContext(), "Net command loh", Toast.LENGTH_SHORT).show()
+    private fun setupBindings() {
+        bindings.apply {
+            sendRequestButton.setOnClickListener {
+                if (requests.isNotEmpty()) {
+                    showBottomDialog()
+                } else {
+                    vm.getMyteams()
+                }
+            }
+
+            backButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
+            favoritesButton.setOnClickListener {
+                vm.addOrRemoveFavourites()
+            }
+        }
+    }
+
+
+    private fun sendRequest() {
+        if (teams.isEmpty()) {
+            Toast.makeText(requireContext(), "Нет команд", Toast.LENGTH_SHORT).show()
             return
         }
 
-        if(teams.size == 1){
+        if (teams.size == 1) {
             vm.sendRequestToUser(teams.first().id)
             return
         }
@@ -136,10 +147,11 @@ class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
         showBottomTeamsDialog()
     }
 
-    //TODO refactor this shit
-    private fun showBottomDialog(){
+
+    private fun showBottomDialog() {
         val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
-        val bottomSheetBinding: UserDetailsBottomSheetBinding = UserDetailsBottomSheetBinding.inflate(layoutInflater, null, false)
+        val bottomSheetBinding: UserDetailsBottomSheetBinding =
+            UserDetailsBottomSheetBinding.inflate(layoutInflater, null, false)
         val adapter = BottomSheetRequestsAdapter()
 
         bottomSheetBinding.closeBtn.setOnClickListener {
@@ -154,7 +166,7 @@ class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
         bottomSheetBinding.requestsRv.adapter = adapter
         adapter.submitList(requests)
 
-        adapter.setDelegate(object: RequestActionDelegate{
+        adapter.setDelegate(object : RequestActionDelegate {
             override fun acceptRequest(requestId: Int) {
                 vm.acceptRequestFromUser(requestId)
             }
@@ -164,8 +176,8 @@ class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
                 requests = requests.filter { r -> r.id != requestId }
                 adapter.submitList(requests)
 
-                if(requests.isEmpty()){
-                    bindings.sendRequestButton.text = "Send request"
+                if (requests.isEmpty()) {
+                    bindings.sendRequestButton.text = "Отправить запрос"
                     dialog.dismiss()
                 }
             }
@@ -173,17 +185,17 @@ class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
             override fun withdrawRequest(requestId: Int) {
                 vm.withdrowRequestToUser(requestId)
             }
-
         })
 
         dialog.setContentView(bottomSheetBinding.root)
         dialog.show()
     }
 
-    //TODO refactor this shit
-    private fun showBottomTeamsDialog(){
+
+    private fun showBottomTeamsDialog() {
         val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
-        val bottomSheetBinding: UserDetailsBottomSheetBinding = UserDetailsBottomSheetBinding.inflate(layoutInflater, null, false)
+        val bottomSheetBinding: UserDetailsBottomSheetBinding =
+            UserDetailsBottomSheetBinding.inflate(layoutInflater, null, false)
         val adapter = ChooseTeamBottomSheetAdapter()
 
         bottomSheetBinding.closeBtn.setOnClickListener {
@@ -203,7 +215,5 @@ class UserDetailsFragment: Fragment(R.layout.fragment_user_details) {
 
         dialog.setContentView(bottomSheetBinding.root)
         dialog.show()
-
-
     }
 }

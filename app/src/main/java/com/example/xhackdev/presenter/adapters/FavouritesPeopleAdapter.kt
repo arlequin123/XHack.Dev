@@ -5,9 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.xhackdev.databinding.FavouritesPeopleItemBinding
 import com.example.xhackdev.databinding.SkillItemBinding
+import com.example.xhackdev.presenter.viewHolders.FavouritesPeopleViewHolder
 
 class FavouritesPeopleAdapter :
-    RecyclerView.Adapter<FavouritesPeopleAdapter.FavouritesPeopleViewHolder>() {
+    RecyclerView.Adapter<FavouritesPeopleViewHolder>() {
 
     var itemSource: List<Any> = emptyList()
         set(newValue) {
@@ -29,12 +30,5 @@ class FavouritesPeopleAdapter :
     override fun getItemCount() = itemSource.size
 
 
-    class FavouritesPeopleViewHolder(
-        private val binding: FavouritesPeopleItemBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(requestHeader: Any) {
-
-        }
-    }
 }

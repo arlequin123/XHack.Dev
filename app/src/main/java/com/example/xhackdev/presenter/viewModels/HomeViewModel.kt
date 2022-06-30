@@ -9,12 +9,15 @@ import com.example.xhackdev.data.models.RequestDto
 import com.example.xhackdev.data.primitives.RequestType
 import com.example.xhackdev.domain.models.RequestItem
 import com.example.xhackdev.domain.models.RequestsToTeam
+import com.example.xhackdev.domain.usecases.GetTeamsRequestsUseCase
+import com.example.xhackdev.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val teamsApi: TeamsApi): BaseViewModel() {
+class HomeViewModel @Inject constructor(private val getTeamsRequestsUseCase: GetTeamsRequestsUseCase):
+    BaseViewModel() {
 
     private val _requests = MutableLiveData<MutableList<RequestsToTeam>>()
     val requests: LiveData<MutableList<RequestsToTeam>> = _requests
@@ -27,37 +30,21 @@ class HomeViewModel @Inject constructor(private val teamsApi: TeamsApi): BaseVie
 
 
     override suspend fun loadContent() {
-        try {
-            _isLoading.postValue(true)
-            val response = teamsApi.getTeamsRequests()
-            _isLoading.postValue(false)
 
-            if (response.isSuccessful) {
-                response.body()?.let { it ->
+        _isLoading.value = true
+        val response = getTeamsRequestsUseCase.execute()
+        _isLoading.value = false
 
-                    val createRequestItem = fun(request: RequestDto): RequestItem = RequestItem(
-                        request.id,
-                        request.user,
-                        request.team,
-                        request.type,
-                        request.isCanceled
-                    )
-
-                    val requestsFromTeams = it.fromTeams.map(createRequestItem)
-                    val requestsFromUsers = it.fromUsers.map(createRequestItem)
-
-                    _requests.value = mutableListOf(
-                        RequestsToTeam(requestsFromTeams, RequestType.TeamToUser),
-                        RequestsToTeam(requestsFromUsers, RequestType.UserToTeam)
-                    )
+        when (response) {
+            is Result.Success -> {
+                response.data?.let {
+                    _requests.value = it
                 }
-            } else {
-                val qwe = "oshibka"
             }
-        } catch (e: Exception) {
+            is Result.Error -> {
 
-        } finally {
-            _isLoading.postValue(false)
+            }
         }
+
     }
 }

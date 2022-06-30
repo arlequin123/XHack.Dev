@@ -6,7 +6,8 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginBottom="5dp"
     android:background="@drawable/request_item_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/rootView">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -19,8 +20,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/corner_radius_15x_background"
-            android:foreground="@drawable/ic_default_team_avatar" />
+            android:background="@drawable/corner_radius_15x_background" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
