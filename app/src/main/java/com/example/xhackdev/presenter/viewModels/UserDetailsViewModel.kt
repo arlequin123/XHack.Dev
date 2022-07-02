@@ -14,6 +14,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 class UserDetailsViewModel @AssistedInject constructor(
@@ -23,7 +24,7 @@ class UserDetailsViewModel @AssistedInject constructor(
     private val withdrawRequestUseCase: WithdrawRequestUseCase,
     private val sendRequestToUserUseCase: SendRequestToUserUseCase,
     private val getMyTeamsRequestUseCase: GetMyTeamsRequestUseCase,
-    private val usersApi: UsersApi,
+    private val getUserUseCase: GetUserUseCase,
     @Assisted private val userId: Int
 ) : BaseViewModel() {
 
@@ -46,30 +47,22 @@ class UserDetailsViewModel @AssistedInject constructor(
 
 
     override suspend fun loadContent() {
-        try {
-            _isLoading.postValue(true)
-            val response = usersApi.getUser(userId)
-            _isLoading.postValue(false)
-
-            if (response.isSuccessful) {
-                response.body()?.let {
+        when (val response = getUserUseCase.execute(userId)) {
+            is Result.Success -> {
+                response.data?.let {
                     _userInfo.value = it
                     _isBookmarked.value = it.isBookmarked
                 }
-            } else {
-                val qwe = "govno"
             }
-        } catch (e: Exception) {
-            val qwe = e.message
-        } finally {
+            is Result.Error -> {
 
+            }
         }
     }
 
 
     fun getMyteams() {
         viewModelScope.launch {
-            getMyTeamsRequestUseCase
             when (val response = getMyTeamsRequestUseCase.execute()) {
                 is Result.Success -> {
                     response.data?.let {

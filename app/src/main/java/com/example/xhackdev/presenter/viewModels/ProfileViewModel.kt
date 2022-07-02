@@ -14,6 +14,8 @@ import com.example.xhackdev.data.storage.AccessTokenStorage
 import com.example.xhackdev.domain.models.ProfileModel
 import com.example.xhackdev.domain.models.RequestItem
 import com.example.xhackdev.domain.models.RequestsToTeam
+import com.example.xhackdev.domain.usecases.GetProfileUseCase
+import com.example.xhackdev.utils.Result
 import com.example.xhackdev.utils.toJsonFromObject
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,10 +24,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val usersApi: UsersApi,
     private val userDao: CurrentUserDao,
     private val storage: AccessTokenStorage,
-    private val gson: Gson
+    private val getProfileUseCase: GetProfileUseCase
 ) : BaseViewModel() {
 
 
@@ -40,30 +41,20 @@ class ProfileViewModel @Inject constructor(
 
 
     override suspend fun loadContent() {
-        try {
-            _isLoading.postValue(true)
-            val response = usersApi.getProfile()
-            _isLoading.postValue(false)
-
-            if (response.isSuccessful) {
-                response.body()?.let { it ->
+        when (val response = getProfileUseCase.execute()) {
+            is Result.Success -> {
+                response.data?.let {
                     _userInfo.value = ProfileModel(it)
-                    val userEntity = CurrentUserEntity(it.id, if(it.avatarUrl.isNullOrEmpty()) "" else it.avatarUrl, it.name, it.email, it.description, it.specialization, gson.toJson(it.networks), gson.toJsonFromObject(
-                        it.tags))
-                    userDao.updateUser(userEntity)
                 }
-            } else {
-                val qwe = "oshibka"
             }
-        } catch (e: Exception) {
+            is Result.Error -> {
 
-        } finally {
-            _isLoading.postValue(false)
+            }
         }
     }
 
 
-    suspend fun logOut(){
+    suspend fun logOut() {
         userDao.deleteUser(userDao.getCurrentUser())
         storage.clearAccessToken()
     }

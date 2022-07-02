@@ -13,6 +13,8 @@ import com.example.xhackdev.data.room.entities.CurrentUserEntity
 import com.example.xhackdev.data.room.entities.toProfileDto
 import com.example.xhackdev.domain.models.ProfileModel
 import com.example.xhackdev.domain.models.Tag
+import com.example.xhackdev.domain.usecases.UpdateProfileUseCase
+import com.example.xhackdev.utils.Result
 import com.example.xhackdev.utils.toJsonFromObject
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +28,8 @@ class EditProfileViewModel @Inject constructor(
     private val usersApi: UsersApi,
     private val fileApi: FileApi,
     private val userDao: CurrentUserDao,
-    private val gson: Gson
+    private val gson: Gson,
+    private val updateProfileUseCase: UpdateProfileUseCase
 ) : BaseViewModel() {
 
     private var _userId: Int = 0
@@ -61,17 +64,13 @@ class EditProfileViewModel @Inject constructor(
 
     fun saveContent(userName: String, specialization: String, networks: List<String>, tags: List<TagDto>){
         viewModelScope.launch {
-            try {
-                _isLoading.value = true
-                val response = usersApi.updateProfile(ProfileDto(_userId, _avatarUrl.value, userName, _email, "", specialization, networks, tags))
-                _isLoading.value = false
-                if (response.isSuccessful) {
+            when (updateProfileUseCase.execute(ProfileDto(_userId, _avatarUrl.value, userName, _email, "", specialization, networks, tags))) {
+                is Result.Success -> {
                     sf.emit(Unit)
-                } else {
-                    val qwe = "oshibka"
                 }
-            }catch (e: Exception){
+                is Result.Error -> {
 
+                }
             }
         }
     }

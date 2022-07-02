@@ -4,6 +4,8 @@ import android.content.Context
 import com.example.xhackdev.data.api.*
 import com.example.xhackdev.data.sharedprefs.SharedPrefsAccessToken
 import com.example.xhackdev.data.storage.AccessTokenStorage
+import com.example.xhackdev.domain.repository.TeamsRepository
+import com.example.xhackdev.domain.usecases.GetTeamsDetailsRequestUseCase
 import com.example.xhackdev.utils.Constants
 import dagger.Module
 import dagger.Provides
