@@ -14,6 +14,7 @@ import com.example.xhackdev.data.room.entities.toProfileDto
 import com.example.xhackdev.domain.models.ProfileModel
 import com.example.xhackdev.domain.models.Tag
 import com.example.xhackdev.domain.usecases.UpdateProfileUseCase
+import com.example.xhackdev.domain.usecases.UploadImageUseCase
 import com.example.xhackdev.utils.Result
 import com.example.xhackdev.utils.toJsonFromObject
 import com.google.gson.Gson
@@ -25,8 +26,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
-    private val usersApi: UsersApi,
-    private val fileApi: FileApi,
+    private val uploadImageUseCase: UploadImageUseCase,
     private val userDao: CurrentUserDao,
     private val gson: Gson,
     private val updateProfileUseCase: UpdateProfileUseCase
@@ -78,22 +78,13 @@ class EditProfileViewModel @Inject constructor(
 
     fun uploadImage(body: MultipartBody.Part){
         viewModelScope.launch {
-            try {
-                _isLoading.value = true
-                val response = fileApi.uploadFile(body)
-                _isLoading.value = false
-
-                if (response.isSuccessful) {
-                    response.body()?.let { it ->
-                        _avatarUrl.value = it.imageUrl
-                    }
-                } else {
-                    val qwe = "oshibka"
+            when (val response = uploadImageUseCase.execute(body)) {
+                is Result.Success -> {
+                    _avatarUrl.value = response.data
                 }
-            }catch (e: Exception) {
-                val qwe = e.message
-            }finally {
+                is Result.Error -> {
 
+                }
             }
         }
     }

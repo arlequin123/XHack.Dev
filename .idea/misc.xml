@@ -4,14 +4,70 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/bottom_sheet_bg.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/circle_background.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/corner_radius_15x_background.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/hack_item_avatar_bakcground.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_burger.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_calendar.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_chat.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_close.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_crown.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_edit.xml" value="0.3651041666666667" />
         <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3651041666666667" />
         <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_logo.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_messanger.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_profile.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_search.xml" value="0.3651041666666667" />
         <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/ic_splash.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/incoming_message_background.xml" value="0.3651041666666667" />
         <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/login_btn_backgraund.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/login_btn_background.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/outgoing_message_background.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/request_item_background.xml" value="0.3651041666666667" />
         <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/white_37x_corner_radius_backgraund.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/drawable/white_37x_corner_radius_background.xml" value="0.3651041666666667" />
         <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/activity_main.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/bottom_sheet_request_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/chat_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/choose_team_request_iem.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/favourites_people_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_chat_details.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_chat_list.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_edit_profile.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_favourites.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_favourites_container.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_favourites_hacks.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_favourites_people.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_favourites_teams.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_hack_details.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_hacks.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_login.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_messenger.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_outgoing_requests.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_profile.xml" value="0.3489583333333333" />
         <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_registration.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_skills.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_tabs.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_team_details.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/fragment_user_details.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/hack_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/incoming_message.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/loader_view.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/network_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/outgoing_message.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/outgoing_request_header.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/request_header.xml" value="0.5" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/selection_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/skill_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/tag_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/team_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/team_participant_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/team_request_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/user_details_bottom_sheet.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/layout/user_request_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/diman/AndroidStudioProjects/xhackdev/app/src/main/res/menu/tabs_menu.xml" value="0.3489583333333333" />
       </map>
     </option>
   </component>

@@ -1,17 +1,13 @@
 package com.example.xhackdev.di
 
-import com.example.xhackdev.data.api.AuthApi
-import com.example.xhackdev.data.api.TeamsApi
-import com.example.xhackdev.data.api.UsersApi
-import com.example.xhackdev.data.repository.AuthRepositoryImpl
-import com.example.xhackdev.data.repository.TeamsRepositoryImpl
-import com.example.xhackdev.data.repository.UserRepositoryImpl
+import com.example.xhackdev.data.api.*
+import com.example.xhackdev.data.repository.*
 import com.example.xhackdev.data.room.CurrentUserDao
 import com.example.xhackdev.data.storage.AccessTokenStorage
-import com.example.xhackdev.domain.repository.AuthRepository
-import com.example.xhackdev.domain.repository.TeamsRepository
-import com.example.xhackdev.domain.repository.UserRepository
+import com.example.xhackdev.domain.interfaces.HackRemoteDataSource
+import com.example.xhackdev.domain.repository.*
 import com.example.xhackdev.domain.usecases.*
+import com.example.xhackdev.domain.usecasesGetHackDetailUseCase.GetHackDetailUseCase
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -116,5 +112,86 @@ class DomainModule {
     @Singleton
     fun provideUpdateProfileUseCase(userRepository: UserRepository): UpdateProfileUseCase {
         return UpdateProfileUseCase(userRepository)
+    }
+
+
+    //BookmarkRepository
+    @Provides
+    @Singleton
+    fun provideBookMarkRepository(bookmarkApi: BookmarkApi): BookmarkRepository {
+        return BookmarkRepositoryImpl(bookmarkApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddUserToBookmarkUseCase(bookmarkRepository: BookmarkRepository): AddUserToBookmarkUseCase {
+        return AddUserToBookmarkUseCase(bookmarkRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoveUserFromBookmarkUseCase(bookmarkRepository: BookmarkRepository): RemoveUserFromBookmarkUseCase {
+        return RemoveUserFromBookmarkUseCase(bookmarkRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoveTeamFromBookmarkUseCase(bookmarkRepository: BookmarkRepository): RemoveTeamFromBookmarkUseCase {
+        return RemoveTeamFromBookmarkUseCase(bookmarkRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddTeamToBookmarkUseCase(bookmarkRepository: BookmarkRepository): AddTeamToBookmarkUseCase {
+        return AddTeamToBookmarkUseCase(bookmarkRepository)
+    }
+
+
+    //FileRepository
+    @Provides
+    @Singleton
+    fun provideFileRepository(fileApi: FileApi): FileRepository {
+        return FileRepositoryImpl(fileApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUploadImageUseCase(fileRepository: FileRepository): UploadImageUseCase {
+        return UploadImageUseCase(fileRepository)
+    }
+
+
+    //TagRepository
+    @Provides
+    @Singleton
+    fun provideTagsRepository(tagsApi: TagsApi): TagsRepository {
+        return TagsRepositoryImpl(tagsApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetTagsUseCase(tagsRepository: TagsRepository): GetTagsUseCase {
+        return GetTagsUseCase(tagsRepository)
+    }
+
+
+    //HackathonRepository
+    @Provides
+    @Singleton
+    fun provideHackathonRepository(hackathonApi: HackathonApi): HackathonRepository {
+        return HackathonRepositoryImpl(hackathonApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetHackDetailUseCase(hackRepository: HackathonRepository): GetHackDetailUseCase {
+        return GetHackDetailUseCase(hackRepository)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideHackRemoteDataSource(hackathonApi: HackathonApi): HackRemoteDataSource {
+        return HackRemoteDataSourceImpl(hackathonApi)
     }
 }

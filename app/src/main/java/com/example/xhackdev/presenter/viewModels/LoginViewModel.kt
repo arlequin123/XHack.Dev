@@ -18,6 +18,7 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase
 ) : BaseViewModel() {
 
+    //todo fix
     val sf = MutableSharedFlow<Unit>()
 
     fun tryLogin(email: String, password: String) {

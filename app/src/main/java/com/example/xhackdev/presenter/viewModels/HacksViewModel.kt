@@ -13,6 +13,8 @@ import com.example.xhackdev.data.models.RequestDto
 import com.example.xhackdev.data.primitives.RequestType
 import com.example.xhackdev.data.repository.HACK_PAGE_SIZE
 import com.example.xhackdev.data.repository.HackRemoteDataSourceImpl
+import com.example.xhackdev.domain.interfaces.HackRemoteDataSource
+import com.example.xhackdev.domain.models.Hack
 import com.example.xhackdev.domain.models.RequestItem
 import com.example.xhackdev.domain.models.RequestsToTeam
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,10 +24,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HacksViewModel @Inject constructor(private val hacksApi: HackathonApi): BaseViewModel() {
+class HacksViewModel @Inject constructor(private val rep: HackRemoteDataSource): BaseViewModel() {
 
+    //todo fix dto
     val hacks: Flow<PagingData<HackDto>>
-    private val rep = HackRemoteDataSourceImpl(hacksApi)
 
     init {
         rep.getHacks().cachedIn(viewModelScope).also { hacks = it }

@@ -23,7 +23,7 @@
             android:textAllCaps="false"
             android:fontFamily="@font/montserrat_regular"
             android:textSize="16sp"
-            android:text="edit"
+            android:text="Редактировать"
             android:background="@drawable/corner_radius_15x_background"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -108,7 +108,7 @@
             android:elevation="4dp"
             android:fontFamily="@font/montserrat_medium"
             android:stateListAnimator="@null"
-            android:text="Log Out"
+            android:text="Выйти"
             android:textAllCaps="false"
             android:textColor="@android:color/holo_red_light"
             android:textSize="18sp"

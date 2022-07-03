@@ -63,6 +63,7 @@ class AuthRepositoryImpl(
                     storage.saveAccessToken(it.token)
                     val type: Type = object : TypeToken<List<TagDto>>() {}.type
                     userDao.addUser(CurrentUserEntity(it.id, if(it.avatarUrl.isNullOrEmpty()) "" else it.avatarUrl, it.name, it.email, it.description, it.specialization, gson.toJson(it.networks), gson.toJson(null, type)))
+                    result = Result.Success(Unit)
                 }
             } else {
                 result = Result.Error("Такой пользователь уже есть")

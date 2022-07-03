@@ -13,7 +13,6 @@ class TeamsRepositoryImpl(
 ): TeamsRepository {
 
     override suspend fun getTeamsRequests(): Result<TeamsRequestResponseDto> {
-
         val result: Result<TeamsRequestResponseDto> = try {
             val response = teamsApi.getTeamsRequests()
             if(response.isSuccessful){

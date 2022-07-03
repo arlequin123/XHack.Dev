@@ -4,6 +4,8 @@ import androidx.lifecycle.*
 import com.example.xhackdev.data.api.TagsApi
 import com.example.xhackdev.data.models.TagDto
 import com.example.xhackdev.domain.models.Tag
+import com.example.xhackdev.domain.usecases.GetTagsUseCase
+import com.example.xhackdev.utils.Result
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -13,7 +15,7 @@ import javax.inject.Inject
 
 
 class SkillsViewModel @AssistedInject constructor(
-    private val tagApi: TagsApi,
+    private val getTagsUseCase: GetTagsUseCase,
     @Assisted private val selectedIds: IntArray
 ) : BaseViewModel() {
 
@@ -28,22 +30,15 @@ class SkillsViewModel @AssistedInject constructor(
 
 
     override suspend fun loadContent() {
-        try {
-            _isLoading.postValue(true)
-            val response = tagApi.getTags()
-            _isLoading.postValue(false)
-
-            if (response.isSuccessful) {
-                response.body()?.let { it ->
+        when (val response = getTagsUseCase.execute()) {
+            is Result.Success -> {
+                response.data?.let {
                     _tagList.value = it.map { dto -> Tag(dto, selectedIds.any { id -> id == dto.id }) }
                 }
-            } else {
-                val qwe = "oshibka"
             }
-        } catch (e: Exception) {
+            is Result.Error -> {
 
-        } finally {
-            _isLoading.postValue(false)
+            }
         }
     }
 

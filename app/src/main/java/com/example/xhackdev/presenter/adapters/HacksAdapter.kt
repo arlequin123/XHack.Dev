@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.xhackdev.R
 import com.example.xhackdev.data.models.HackDto
 import com.example.xhackdev.databinding.HackItemBinding
+import com.example.xhackdev.domain.models.Hack
 import com.example.xhackdev.domain.models.RequestItem
 import com.example.xhackdev.presenter.viewHolders.HackViewHolder
 

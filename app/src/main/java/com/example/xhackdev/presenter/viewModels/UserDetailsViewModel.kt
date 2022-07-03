@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 
 class UserDetailsViewModel @AssistedInject constructor(
-    private val bookmarkApi: BookmarkApi,
+    private val addUserToBookmarkUseCase: AddUserToBookmarkUseCase,
+    private val removeUserFromBookmarkUseCase: RemoveUserFromBookmarkUseCase,
     private val acceptRequestUserToTeamUseCase: AcceptRequestUserToTeamUseCase,
     private val declineRequestUserToTeamUseCase: DeclineRequestUserToTeamUseCase,
     private val withdrawRequestUseCase: WithdrawRequestUseCase,
@@ -93,22 +94,21 @@ class UserDetailsViewModel @AssistedInject constructor(
 
     fun addOrRemoveFavourites() {
         viewModelScope.launch {
-            try {
 
-                val response = when (_isBookmarked.value!!) {
-                    true -> bookmarkApi.removeUserFromBookmark(UserBookmarkRequest(_userInfo.value!!.id))//todo fix !!.id
-                    false -> bookmarkApi.addUserToBookmark(UserBookmarkRequest(_userInfo.value!!.id))
-                }
-
-                if (response.isSuccessful) {
+            if(_userInfo.value == null) {
+                return@launch
+            }
+            val response = when (_isBookmarked.value!!) {
+                true -> removeUserFromBookmarkUseCase.execute(UserBookmarkRequest(_userInfo.value!!.id))
+                false -> addUserToBookmarkUseCase.execute(UserBookmarkRequest(_userInfo.value!!.id))
+            }
+            when (response) {
+                is Result.Success -> {
                     _isBookmarked.value = !_isBookmarked.value!!
-                } else {
-                    val asd = "asd"
                 }
-            } catch (e: Exception) {
-                val qwe = e.message
-            } finally {
+                is Result.Error -> {
 
+                }
             }
         }
     }

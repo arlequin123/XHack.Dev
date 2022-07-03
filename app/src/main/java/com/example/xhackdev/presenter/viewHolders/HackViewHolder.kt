@@ -5,6 +5,7 @@ import com.bumptech.glide.Glide
 import com.example.xhackdev.R
 import com.example.xhackdev.data.models.HackDto
 import com.example.xhackdev.databinding.HackItemBinding
+import com.example.xhackdev.domain.models.Hack
 
 class HackViewHolder(private val binding: HackItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
