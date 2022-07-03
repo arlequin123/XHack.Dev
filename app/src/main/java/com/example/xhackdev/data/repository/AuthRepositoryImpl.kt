@@ -2,6 +2,7 @@ package com.example.xhackdev.data.repository
 
 import com.example.xhackdev.data.api.AuthApi
 import com.example.xhackdev.data.models.LoginRequestDto
+import com.example.xhackdev.data.models.LoginResponseDto
 import com.example.xhackdev.data.models.RegisterRequestDto
 import com.example.xhackdev.data.models.TagDto
 import com.example.xhackdev.data.room.CurrentUserDao
@@ -26,25 +27,28 @@ class AuthRepositoryImpl(
         try {
             val response = api.login(LoginRequestDto(email, password))
             if (response.isSuccessful) {
-                response.body()?.let {
-                    storage.saveAccessToken(it.token)
+                val loginResponse = response.body()
+                if(loginResponse != null)
+                {
+                    storage.saveAccessToken(loginResponse.token)
                     val tagType: Type = object : TypeToken<List<TagDto>>() {}.type
                     val userEntity = CurrentUserEntity(
-                        it.user.id,
-                        if (it.user.avatarUrl.isNullOrEmpty()) "" else it.user.avatarUrl,
-                        it.user.name,
-                        it.user.email,
-                        it.user.description,
-                        it.user.specialization,
-                        gson.toJson(it.user.networks),
+                        loginResponse.user.id,
+                        if (loginResponse.user.avatarUrl.isNullOrEmpty()) "" else loginResponse.user.avatarUrl,
+                        loginResponse.user.name,
+                        loginResponse.user.email,
+                        loginResponse.user.description,
+                        loginResponse.user.specialization,
+                        gson.toJson(loginResponse.user.networks),
                         gson.toJson(
                             emptyList<TagDto>(), tagType
                         )
                     )
                     userDao.addUser(userEntity)
                     result = Result.Success(Unit)
+                }else {
+                    result = Result.Error("Произошла ошибка")
                 }
-                result = Result.Error("Произошла ошибка")
             } else {
                 result = Result.Error("Нет такого пользователся, проверьте логин или пароль.")
             }
